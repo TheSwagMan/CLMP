@@ -3,20 +3,20 @@
 Chaque joueur commence avec 2000 (provisoire)
 
 ### Victoire
-..* possède 4 gares
-..* possède 3 monopoles
-..* possède 1 ligne
-..* les autres joueurs sont en faillite
+* possède 4 gares
+* possède 3 monopoles
+* possède 1 ligne
+* les autres joueurs sont en faillite
 
 ### Chance
-⋅⋅* aller en prison
-⋅⋅* sortie de prison ( carte conservable)
-⋅⋅* recevoir de l'argent (25 de tout le monde)
-⋅⋅* perdre de l'argent (100)
-..* rejouer
-..* aller à une gare (random)
-..* aller à une maison (random)
-..* revente de maison/gare
+* aller en prison
+* sortie de prison ( carte conservable)
+* recevoir de l'argent (25 de tout le monde)
+* perdre de l'argent (100)
+* rejouer
+* aller à une gare (random)
+* aller à une maison (random)
+* revente de maison/gare
 
 ### Taxe
 Cumule l'argent reçu dans une variable "caisse taxe"
@@ -30,8 +30,8 @@ Reçoit une certaine somme (300 provisoire)
 ### prison
 3 tours pour sortir
 Possibilité de sortir si:
-..* joueur fait un double
-..* payer amende qui finit dans "caisse taxe" (200 provisoire)
+* joueur fait un double
+* payer amende qui finit dans "caisse taxe" (200 provisoire)
 
 ### maison
 #### 1er achat
