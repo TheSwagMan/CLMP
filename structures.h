@@ -13,8 +13,8 @@ typedef struct  player_s
 typedef struct  case_s
 {
     char        *name;
-    int         color;
     int         type;
     int         owner;
+    int         initial_price;
 }               case_t;
 #endif /* _STRUCTURES_H_ */
