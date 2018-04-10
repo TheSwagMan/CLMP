@@ -10,17 +10,11 @@ typedef struct  player_s
 }               player_t;
 
 
-typedef struct  house_s
-{
-    int         owner;
-}               house_t;
-
 typedef struct  case_s
 {
     char        *name;
-    int         house_count;
-    house_t     *houses;
     int         color;
     int         type;
+    int         owner;
 }               case_t;
 #endif /* _STRUCTURES_H_ */
