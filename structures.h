@@ -33,7 +33,9 @@ enum            CASE_TYPES
     TYPE_STREET = 0,
     TYPE_PRISON,
     TYPE_LUCKY,
-    TYPE_STATION
+    TYPE_STATION,
+    TYPE_PARC,
+    TYPE_TAX
 };
 
 #endif /* _STRUCTURES_H_ */
