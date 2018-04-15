@@ -93,30 +93,30 @@ char **formatted_case(board_t *board, int case_num, int *players, int players_co
     char **r;
     char *t;
     char **p;
-    case_t *c = board->cases[case_num];
+    case_t c = board->cases[case_num];
     int i;
 
     r = (char **)malloc(V_SIZE * sizeof(char *));
     for (i = 0; i < V_SIZE; i++)
         r[i] = (char *)malloc(H_SIZE * sizeof(char));
-    if (c->type == TYPE_STREET)
+    if (c.type == TYPE_STREET)
     {
-        r[0][0] = 'A' + c->category;
+        r[0][0] = 'A' + c.category;
         strcpy(r[0] + 1, " - ");
-        strcpy(r[0] + 4, c->name);
-        r[0][4 + strlen(c->name)] = '\0';
+        strcpy(r[0] + 4, c.name);
+        r[0][4 + strlen(c.name)] = '\0';
         i = 0;
-        if (c->owner)
+        if (c.owner)
         {
-            t = itoa(c->owner);
+            t = itoa(c.owner);
             i = strlen(t);
             strcpy(r[1], t);
             strcpy(r[1] + i, " - ");
             i += 3;
         }
         r[1][i++] = '$';
-        strcpy(r[1] + i, itoa(c->price));
-        r[1][i + strlen(itoa(c->price))] = '\0';
+        strcpy(r[1] + i, itoa(c.price));
+        r[1][i + strlen(itoa(c.price))] = '\0';
         p = (char **)malloc(players_count * sizeof(char *));
         for (i = 0; i < players_count; i++)
             p[i] = itoa(players[i]); 

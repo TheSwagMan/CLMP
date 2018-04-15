@@ -22,7 +22,7 @@ typedef struct  case_s
 
 typedef struct  board_s
 {
-    case_t      **cases;
+    case_t      *cases;
     int         player_number;
     player_t    **players;
 
