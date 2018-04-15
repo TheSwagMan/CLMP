@@ -6,15 +6,16 @@
 
 int frand_1(void){
 	
-	return rand() % (6)+1;
+	return rand()%(6)+1;
 }
 
-int main(void){
+/*int main(void){
 	srand(time(NULL));
 	for(int i=0;i<100;i++){
 		printf("%d",frand_1());
 	}
-	return 0;
+        return 0;
+	*/
 }
 		
 	
