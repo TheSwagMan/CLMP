@@ -3,7 +3,6 @@
 
 typedef struct  player_s
 {
-    int         id;
     char        *name;
     int         position;
     int         money;

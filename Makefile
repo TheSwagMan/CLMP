@@ -1,4 +1,4 @@
-FLAGS = -W -Wall -Wextra -Werror
+FLAGS = -W -Wall -Wextra -Werror -g
 MAIN = monopoly.c
 PARTS = gui.c structures.c utils.c
 MAINO = $(MAIN:.c=.o)
