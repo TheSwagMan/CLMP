@@ -1,6 +1,6 @@
 FLAGS = -W -Wall -Wextra -Werror
 MAIN = monopoly.c
-PARTS = gui.c structures.c
+PARTS = gui.c structures.c utils.c
 MAINO = $(MAIN:.c=.o)
 OBJS = $(PARTS:.c=.o)  
 CC = gcc

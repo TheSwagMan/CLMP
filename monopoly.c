@@ -2,6 +2,8 @@
 
 int main(void)
 {
-    printf("%s", generate_empty_grid(9));    
+    board_t  *board;
+    board = (board_t *)malloc(sizeof(board_t));
+    (void)board;
     return 0;
 }

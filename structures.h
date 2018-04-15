@@ -13,19 +13,27 @@ typedef struct  player_s
 typedef struct  case_s
 {
     char        *name;
-    char        *category;
+    int         category;
     int         type;
     int         owner;
     int         initial_price;
+    int         price;
 }               case_t;
 
 typedef struct  board_s
 {
-    int         board_size;
     case_t      **cases;
     int         player_number;
     player_t    **players;
 
 }               board_t;
+
+enum            CASE_TYPES
+{
+    TYPE_STREET = 0,
+    TYPE_PRISON,
+    TYPE_LUCKY,
+    TYPE_STATION
+};
 
 #endif /* _STRUCTURES_H_ */

@@ -1,34 +1,175 @@
 #include "gui.h"
 
-void    display_board(board_t *board)
+void    center_pad_str(char *s, int size)
 {
-    (void)board;
+    int ssize = strlen(s);
+    int pad = (size - ssize) / 2;
+    int i;
 
+    for (i = 0; i < pad; i++)
+        putchar(N_CHAR);
+    fputs(s, stdout);
+    for (i = 0; i < size - ssize - pad; i++)
+        putchar(N_CHAR);
 }
 
-char    *generate_empty_grid(int size)
+void    case_full(int iterations, char **content)
 {
-    char *grid;
-    int x, y, i, j, index;
+    int i;
 
-    y = (CASE_SIZE + 1) * size + 1;
-    x = y + 1;
-    grid = (char *)malloc(sizeof(char) * y * 2 * x);
-    for (i = 0; i < y * x * 2; i++)
-        grid[i] = ' ';
-    for (i = 0; i < y; i++)
+    for (i = 0; i < iterations; i++)
     {
-        for (j = 0; j < x; j++)
+        putchar(V_CHAR);
+        center_pad_str(content[i], H_SIZE);
+    }
+    putchar(V_CHAR);
+}
+
+void    case_fill(int iterations)
+{
+    int i;
+
+    for(i = 0; i < H_SIZE * iterations + (iterations - 1); i++)
+        putchar(N_CHAR);
+}
+
+void    case_partial(int iterations, char **content)
+{
+    putchar(V_CHAR);
+    center_pad_str(content[0], H_SIZE);
+    putchar(V_CHAR);
+    case_fill(iterations - 2);
+    putchar(V_CHAR);
+    center_pad_str(content[1], H_SIZE);
+    putchar(V_CHAR);
+}
+
+void    border_full(int iterations)
+{
+    int i, k;
+
+    for (i = 0; i < iterations; i++)
+    {
+        putchar(X_CHAR);
+        for (k = 0; k < H_SIZE; k++)
+            putchar(H_CHAR);
+    }
+    putchar(X_CHAR);
+}
+
+
+void    border_partial(int iterations)
+{
+    border_full(1);
+    case_fill(iterations - 2);
+    border_full(1);
+}
+
+void    print_board(char ****info)
+{
+    int i, j;
+
+    for (i = 0; i < GRID_SIZE; i++)
+    {
+        if (i == 0 || i == 1 || i == GRID_SIZE - 1)
+            border_full(GRID_SIZE);
+        else
+            border_partial(GRID_SIZE);
+        putchar('\n');
+        for (j = 0; j < V_SIZE; j++)
         {
-            index = (i * x + j) * 2 - 2;
-            if (j == x - 1)
-                grid[index] = '\n';
-            // drawing grid
-            else if (i == 0 || i == y - 1 || i == CASE_SIZE + 1
-                    || i == y - CASE_SIZE - 2 || j == 0 || j == x - 2
-                    )
-                grid[index] = '*';
+            if (i == 0 || i == GRID_SIZE - 1)
+                case_full(GRID_SIZE, info[i][j]);
+            else
+                case_partial(GRID_SIZE, info[i][j]);
+            putchar('\n');
         }
     }
-    return (grid);
+    border_full(GRID_SIZE);
+}
+
+char **formatted_case(board_t *board, int case_num, int *players, int players_count)
+{
+    char **r;
+    char *t;
+    char **p;
+    case_t *c = board->cases[case_num];
+    int i;
+
+    r = (char **)malloc(V_SIZE * sizeof(char *));
+    for (i = 0; i < V_SIZE; i++)
+        r[i] = (char *)malloc(H_SIZE * sizeof(char));
+    if (c->type == TYPE_STREET)
+    {
+        r[0][0] = 'A' + c->category;
+        strcpy(r[0] + 1, " - ");
+        strcpy(r[0] + 4, c->name);
+        r[0][4 + strlen(c->name)] = '\0';
+        i = 0;
+        if (c->owner)
+        {
+            t = itoa(c->owner);
+            i = strlen(t);
+            strcpy(r[1], t);
+            strcpy(r[1] + i, " - ");
+            i += 3;
+        }
+        r[1][i++] = '$';
+        strcpy(r[1] + i, itoa(c->price));
+        r[1][i + strlen(itoa(c->price))] = '\0';
+        p = (char **)malloc(players_count * sizeof(char *));
+        for (i = 0; i < players_count; i++)
+            p[i] = itoa(players[i]); 
+        r[2] = join((char *)", ", p, board->player_number);
+    }
+    return (r);
+}
+
+char    ****board_info_convert(board_t *board)
+{
+    char ****info;
+    char **formatted;
+    int swap_box[2][CASE_COUNT];
+    int *players_in_case;
+    int i, j, players_in_case_c;
+
+    info = (char ****)malloc(sizeof(char ***) * GRID_SIZE);
+    for (i = 0; i < GRID_SIZE; i++)
+    {
+        info[i] = (char ***)malloc(sizeof(char **) * V_SIZE);
+        for (j = 0; j < V_SIZE; j++)
+        {
+            info[i][j] = (char **)malloc(sizeof(char *) * ((i == 0 || i == GRID_SIZE - 1) ? GRID_SIZE : 2));
+        }
+    }
+    for (i = 0; i < GRID_SIZE; i++)
+    {
+        swap_box[0][i] = 0;
+        swap_box[1][i] = i;
+        swap_box[0][2 * GRID_SIZE - 2 + i] = GRID_SIZE - 1;
+        swap_box[1][2 * GRID_SIZE - 2 + i] = GRID_SIZE - 1 - i;
+    }
+    for (i = 0; i < GRID_SIZE - 2; i++)
+    {
+        swap_box[0][GRID_SIZE + i] = i + 1;
+        swap_box[1][GRID_SIZE + i] = 1;
+        swap_box[0][3 * GRID_SIZE - 2 + i] = GRID_SIZE - 2 - i;
+        swap_box[1][3 * GRID_SIZE - 2 + i] = 0;
+    }
+    players_in_case = (int *)malloc(sizeof(int) * board->player_number);
+    for (i = 0; i < CASE_COUNT; i++)
+    {
+        players_in_case_c = 0;
+        for (j = 0; j < board->player_number; j++)
+            if (board->players[j]->position == i)
+                players_in_case[players_in_case_c++] = j;
+        formatted = formatted_case(board, i, players_in_case, players_in_case_c);
+        for (j = 0; i < V_SIZE; i++)
+            info[swap_box[0][i]][j][swap_box[1][i]] = formatted[j];
+    }
+    return (info);
+}
+void    display_board(board_t *board)
+{
+    print_board(board_info_convert(board));
 }
