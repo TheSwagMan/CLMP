@@ -117,7 +117,7 @@ char **formatted_case(board_t *board, int case_num, int *players, int players_co
         strcpy(r[0] + 4, c.name);
         r[0][4 + strlen(c.name)] = '\0';
         i = 0;
-        if (c.owner)
+        if (c.owner >= 0)
         {
             t = itoa(c.owner);
             i = strlen(t);
@@ -132,7 +132,7 @@ char **formatted_case(board_t *board, int case_num, int *players, int players_co
             exit(-1);
         for (i = 0; i < players_count; i++)
             p[i] = itoa(players[i]);
-        r[2] = join((char *)", ", p, players_count);
+        r[3] = join((char *)", ", p, players_count);
         printf("%s\n", r[2]);
     }
     return (r);
@@ -186,5 +186,9 @@ char    ****board_info_convert(board_t *board)
 }
 void    display_board(board_t *board)
 {
+    int i;
+
     print_board(board_info_convert(board));
+    for (i = 0; i < board->player_number; i++)
+        printf("%d=%s ($%d)\n", i, board->players[i]->name, board->players[i]->money);
 }
