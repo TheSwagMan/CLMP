@@ -1,5 +1,12 @@
 #include "gui.h"
 
+void    print_array(int *array, int length)
+{
+    for (int i = 0; i < length; i++)
+        printf("%d, ", array[i]);
+    printf("\n");
+} 
+
 void    center_pad_str(char *s, int size)
 {
     int ssize = 0;
@@ -104,8 +111,11 @@ char **formatted_case(board_t *board, int case_num, int *players, int players_co
     if (!(r = (char **)malloc(V_SIZE * sizeof(char *))))
         exit(-1);
     for (i = 0; i < V_SIZE; i++)
+    {
         if (!(r[i] = (char *)malloc(H_SIZE * sizeof(char))))
             exit(-1);
+        *(r[i]) = '\0';
+    }
     if (c.type == TYPE_STREET)
     {
         r[0][0] = 'A' + c.category;
@@ -128,7 +138,8 @@ char **formatted_case(board_t *board, int case_num, int *players, int players_co
             exit(-1);
         for (i = 0; i < players_count; i++)
             p[i] = itoa(players[i]);
-        r[2] = join((char *)", ", p, players_count);        
+        r[2] = join((char *)", ", p, players_count);
+        printf("%s\n", r[2]);
     }
     return (r);
 }
@@ -174,7 +185,7 @@ char    ****board_info_convert(board_t *board)
             if (board->players[j]->position == i)
                 players_in_case[players_in_case_c++] = j;
         formatted = formatted_case(board, i, players_in_case, players_in_case_c);
-        for (j = 0; i < V_SIZE; i++)
+        for (j = 0; j < V_SIZE; j++)
             info[swap_box[0][i]][j][swap_box[1][i]] = formatted[j];
     }
     return (info);
