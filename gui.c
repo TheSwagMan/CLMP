@@ -1,11 +1,5 @@
 #include "gui.h"
 
-void    print_array(int *array, int length)
-{
-    for (int i = 0; i < length; i++)
-        printf("%d, ", array[i]);
-    printf("\n");
-} 
 
 void    center_pad_str(char *s, int size)
 {
