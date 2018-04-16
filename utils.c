@@ -13,14 +13,16 @@ char    *itoa(int i)
     }
     if (l == 0)
         return (char *)"0";
-    r = (char *)malloc((l + 1) * sizeof(char));
+    if (!(r = (char *)malloc((l + 1) * sizeof(char))))
+        exit(-1);
     p = r;
+    r += l - 1;
     while (i > 0)
     {
-        *(r++) = digit[i % 10];
+        *(r--) = digit[i % 10];
         i = i / 10;
     }
-    *r = '\0';
+    p[l] = '\0';
     return (p);
 }
 
@@ -29,11 +31,14 @@ char    *join(char *s, char **a, int c)
     int l = 0, i, slen, n = 0;
     char *r;
 
+    if (c == 0)
+        return (char *)"\0";
     slen = strlen(s);
     for (i = 0; i < c; i++)
         l += strlen(a[i]);
     l += (c - 1) * slen;
-    r = (char *)malloc(sizeof(char) * (l + 1));
+    if (!(r = (char *)malloc(sizeof(char) * (l + 1))))
+        exit(-1);
     for (i = 0; i < c ; i++)
     {
         strcpy(r + n, a[i]);
