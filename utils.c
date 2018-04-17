@@ -1,6 +1,6 @@
 #include "utils.h"
 
-char    *itoa(int i)
+char    *my_itoa(int i)
 {
     char digit[] = "0123456789";
     int n = i, l = 0;

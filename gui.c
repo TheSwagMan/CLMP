@@ -119,19 +119,19 @@ char **formatted_case(board_t *board, int case_num, int *players, int players_co
         i = 0;
         if (c.owner >= 0)
         {
-            t = itoa(c.owner);
+            t = my_itoa(c.owner);
             i = strlen(t);
             strcpy(r[1], t);
             strcpy(r[1] + i, " - ");
             i += 3;
         }
         r[1][i++] = '$';
-        strcpy(r[1] + i, itoa(c.price));
-        r[1][i + strlen(itoa(c.price))] = '\0';
+        strcpy(r[1] + i, my_itoa(c.price));
+        r[1][i + strlen(my_itoa(c.price))] = '\0';
         if (!(p = (char **)malloc(players_count * sizeof(char *))))
             exit(-1);
         for (i = 0; i < players_count; i++)
-            p[i] = itoa(players[i]);
+            p[i] = my_itoa(players[i]);
         r[3] = join((char *)", ", p, players_count);
         printf("%s\n", r[2]);
     }
