@@ -26,7 +26,9 @@ int main(void)
 	for (i = 0 ; i < number ; i++)
     {
         player_t *p1;
-        fgets(name,100,stdin);
+        if(!(fgets(name,100,stdin)))
+            exit(-2);
+        name[strlen(name)] = '\0';
         if (!(p1 = (player_t *)malloc(sizeof(player_t))))
             exit(-1);
         p1->money = 100;
