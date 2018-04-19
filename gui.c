@@ -184,6 +184,7 @@ char    ****board_info_convert(board_t *board)
     }
     return (info);
 }
+
 void    display_board(board_t *board)
 {
     int i;
