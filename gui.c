@@ -191,6 +191,6 @@ void    display_board(board_t *board)
 
     print_board(board_info_convert(board));
     for (i = 0; i < board->player_number; i++)
-        printf("%d=%s ($%d)\t", i, board->players[i]->name, board->players[i]->money);
+        printf("%d=%s ($%d)    ", i, board->players[i]->name, board->players[i]->money);
     putchar('\n');
 }

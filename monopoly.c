@@ -11,16 +11,13 @@ int main(void)
         exit(-1);
     // setting up saces
     board->cases = CASES;
-
     // set number of players
     printf("Combien de joueurs ? : ");
     fgets(buffer, sizeof(buffer), stdin);
-
     board->player_number = atoi(buffer);
     if (!(board->players = (player_t**)malloc(sizeof(player_t*) * board->player_number)))
         exit(-1);
-
-    // creating a player
+    // creating players
     for (i = 0; i < board->player_number; i++)
     {
         player_t *p;
@@ -29,11 +26,13 @@ int main(void)
         printf("Nom du joueur %d : ", i);
         if(!(fgets(buffer, sizeof(buffer), stdin)))
             exit(-2);
-       buffer[strlen(buffer) - 1] = '\0';
-
+        buffer[strlen(buffer) - 1] = '\0';
         // default player settings
         p->money = 100;
-        strcpy(p->name, buffer);
+        if (!(p->name = (char *)malloc((strlen(buffer) + 1) * sizeof(char))))
+            exit(-1);
+        if (!(strcpy(p->name, buffer)))
+            exit(-3);
         p->position = 0;
         board->players[i] = p;
     }
