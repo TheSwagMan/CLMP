@@ -15,7 +15,7 @@ int main(void)
     // set number of players
     printf("Combien de joueurs ? : ");
     fgets(buffer, sizeof(buffer), stdin);
-    
+
     board->player_number = atoi(buffer);
     if (!(board->players = (player_t**)malloc(sizeof(player_t*) * board->player_number)))
         exit(-1);
@@ -33,7 +33,7 @@ int main(void)
 
         // default player settings
         p->money = 100;
-        p->name = (char *)buffer;
+        strcpy(p->name, buffer);
         p->position = 0;
         board->players[i] = p;
     }
