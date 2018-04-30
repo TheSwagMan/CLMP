@@ -33,8 +33,10 @@ enum            CASE_TYPES
     TYPE_PRISON,
     TYPE_LUCKY,
     TYPE_STATION,
-    TYPE_PARC,
-    TYPE_TAX
+    TYPE_PARK,
+    TYPE_TAX,
+    TYPE_START,
+    TYPE_GOPRISON
 };
 
 #endif /* _STRUCTURES_H_ */
