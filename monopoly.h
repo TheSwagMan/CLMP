@@ -5,7 +5,7 @@
 # include "gui.h"
 
 case_t CASES[] = {
-
+    {(char *)"Depart", 0, TYPE_START, 0, 0, 0},
     {(char *)"Belleville", 0, TYPE_STREET, -1, 60, 60},
     {(char *)"Lecourbe", 0, TYPE_STREET, -1, 60, 60},
     {(char *)"Impots",0,TYPE_TAX, 0, 200, 200 },
@@ -20,8 +20,8 @@ case_t CASES[] = {
     {(char *)"Mozart", 3, TYPE_STREET, -1, 180, 180},
     {(char *)"Chance", 0, TYPE_LUCKY, -1, 0, 0},
     {(char *)"Saint-Michel", 3, TYPE_STREET, -1, 180, 180},
-    {(char *)"Pigalle", 3, TYPE_STRET, -1, 200, 200},
-
+    {(char *)"Pigalle", 3, TYPE_STREET, -1, 200, 200},
+    {(char *)"Parc Gratuit", 0, TYPE_PARK, 0, 0, 0},
     {(char *)"Matignon", 4, TYPE_STREET, -1, 220, 220},
     {(char *)"Chance", 0, TYPE_LUCKY, -1, 0, 0},
     {(char *)"Malesherbes", 4, TYPE_STREET, -1, 220, 220},
@@ -29,7 +29,7 @@ case_t CASES[] = {
     {(char *)"Gare du Nord", 8, TYPE_STATION, -1, 200, 200},
     {(char *)"Saint-Honore", 5, TYPE_STREET, -1, 260, 260},
     {(char *)"La Bourse", 5, TYPE_STREET, -1, 260, 260},
-
+    {(char *)"Go prison", 0, TYPE_GOPRISON, 0, 0, 0},
     {(char *)"Breteuil", 6, TYPE_STREET, -1, 300, 300},
     {(char *)"Foch", 6, TYPE_STREET, -1, 300, 300},
     {(char *)"Saint-Lazare", 8, TYPE_STATION, -1, 200, 200},
