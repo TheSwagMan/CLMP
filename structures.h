@@ -26,6 +26,16 @@ typedef struct  board_s
     player_t    **players;
 
 }               board_t;
+typedef struct carte_chance
+{
+char            *nom;
+//si carte concervable
+int              concervable;
+
+//entier de 0 a 12
+int              numero_de_la_carte;
+
+}                     chance_t;
 
 enum            CASE_TYPES
 {
