@@ -39,7 +39,7 @@ case_t CASES[] = {
     {(char *)"La Paix", 7, TYPE_STREET, -1, 400, 400},
 
 };
-chance_t chance[] = {
+chance_t CHANCE[] = {
    {(char *)"prison",0,0};
    {(char *)"cadeaux",0,1};
    {(char *)"amende",0,2};
