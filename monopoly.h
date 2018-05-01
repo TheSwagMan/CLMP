@@ -39,5 +39,19 @@ case_t CASES[] = {
     {(char *)"La Paix", 7, TYPE_STREET, -1, 400, 400},
 
 };
+chance_t chance[] = {
+   {(char *)"prison",0,0};
+   {(char *)"cadeaux",0,1};
+   {(char *)"amende",0,2};
+   {(char *)"rejouer",0,3};
+   {(char *)"gare",0,4};
+   {(char *)"rue",0,5};
+   {(char *)"destruction",0,6};
+   {(char *)"impots",0,7};
+   {(char *)"parc gratuit",0,8};
+   {(char *)"sortie de prison",1,9};
+   {(char *)"loyer gratuit",1,10};
+   {(char *)"prochain loyer doublé",1,11}
+ };
 
 #endif /* _MONOPOLY_H_ */
