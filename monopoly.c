@@ -41,3 +41,5 @@ int main(void)
     display_board(board);
     return 0;
 }
+
+// useless
