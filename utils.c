@@ -57,3 +57,9 @@ int dice(void)
 {
     return ((rand() % 6) + 1);
 }
+// je l'utilise pour les cartes chances
+
+int frand_2(int a,int b)
+{
+    return ((rand() % (b-a)) + 1);
+}
