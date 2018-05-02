@@ -1,7 +1,6 @@
 #include "monopoly.h"
+#include "utils.c"
 
-
-#include "monopoly.h"
 void apply_card_prison(board_t board,int player_id,chance_t chance){
      if(chance->numero_de_la_carte==0){
         pritnf("allez en prison")
@@ -101,5 +100,26 @@ int main(void)
     printf("-\n");
     // displaying board for debug
     display_board(board);
+
+    //debut de partie
+    int player_now = 0;
+    while (!victoire)
+    {
+        int lancer1 = dice();
+        int lancer2 = dice();
+
+        printf("&s lance 2 des : &d et &d \n",board->players[player_now],lancer1,lancer2);
+        board->players[player_now]->position += lancer1 + lancer2;
+        if (lancer1 == lancer2)
+        {
+            lancer1 = dice();
+            lancer2 = dice();
+            printf("Double !! les des sont relances : &d et &d", lancer1, lancer2);
+        }
+        if (player_now<board->player_number)
+          player_now += 1;
+        else
+          player_now = 0;
+    }
     return 0;
 }

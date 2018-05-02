@@ -6,5 +6,6 @@
 
 char    *my_itoa(int i);
 char    *join(char *s, char **a, int c);
+int     dice(void);
 
 #endif /* _UTILS_H_ */

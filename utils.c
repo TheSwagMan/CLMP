@@ -52,3 +52,8 @@ char    *join(char *s, char **a, int c)
     r[n] = '\0';
     return r;
 }
+
+int dice(void)
+{
+    return ((rand() % 6) + 1);
+}
