@@ -1,61 +1,64 @@
 #include "monopoly.h"
-#include "utils.c"
-
+srand(time(NULL));
+int frand_2(int a,int b)
+{
+    return ((rand() % (b-a)) + 1);
+}
 void apply_card_prison(board_t board,int player_id,chance_t chance){
      if(chance->numero_de_la_carte==0){
-        pritnf("allez en prison")
-        return board->player_id->position=board->case[8];
+        printf("allez en prison")
+        board->players[player_id]->position = 8;
      }
      if(chance->numero_de_la_carte==1){
         printf("Recevez 250$ de chaque joueur");
-        return board->players_t->money = money  + (250  * (board->player_number));
+        board->players[player_id]->money += (250  * (board->player_number));
      }
      if(chance->numero_de_la_carte==2){
-     printf("Payer 200$ d'amende")
-       return board->players_t->money = money - 200;
+        printf("Payer 200$ d'amende")
+        board->players[player_id]-> money -= 200;
      }
      if(chance->numero_de_la_carte==3){
-      printf("vous pouvez rejouer");
-      return 0;
+        printf("vous pouvez rejouer");
+
      }
      if(chance->numero_de_la_carte==4){
-        t[4]={{board->case[4]},{board->case[11]},{board->case[21]},{board->case[27]}};
+        t[4]={4,11,21,27};
         int c=frand_2(0,4);
-        printf("allez à la gare: &s",t[c]->name)
-        return board->player_id->position=t[C];
+        printf("allez à la gare: &s",board->cases[nombre].name);
+        board->players[player_id]->position= t[C];
      }
      if(chance->numero_de_la_carte==5){
         int nombre= frand_2(1,33);
         if( nombre != 3 || nombre != 4 || nombre  !=  6 || nombre !=  8 || nombre !=  11 ||nombre !=  13 || nombre  !=  16 || nombre  !=  18 ||nombre !=  21 || nombre != 24 || nombre != 27 || nombre != 28 || nombre != 30 ){
-        printf("allez à :&s",board->case[nombre]->name);
-          return board->player_id->position =  board->case[nombre];
+            printf("allez à :&s",board->cases[nombre].name);
+            board->players[player_id]->position = nombre;
         }
      }
      if( chance->numero_de_la_carte==6){
         int nombre=frand_2(1,33)
-        printf("entrer le nom une rue ou une gare va etre revendue");
+        printf("une rue ou une gare va etre réinitialiser");
         if(nombre != 3 || nombre  !=  6 || nombre !=  8 ||nombre !=  13 || nombre  !=  16 || nombre  !=  18 || nombre != 24 || nombre != 28 || nombre != 30 ){
-           return board->cases[nombre].owner = -1;
+          board->cases[nombre].owner = -1;
           }
     }
 
     if (chance->numero_de_la_carte == 7){
         printf("allez au centre des impôts");
-        return board->player_id->position=board->case[3];
+        board->players[player_id]->position = 3;
      }
      if (chance->numero_de_la_carte == 8){
-         printf("allez au parc gratuit");
-         return board->player_id->position=board->case[16];
+        printf("allez au parc gratuit");
+        board->players[player_id]->position = 16;
       }
       if(chance->numero_de_la_carte == 9){
-        return board-> player_id -> objet = chance->numero_de_la_carte;
+         board-> players[player_id] -> objets = chance->numero_de_la_carte;
 
     }
     if(chance-> numero_de_la_carte == 10){
-      return  board-> player_id -> objet = chance->numero_de_la_carte;
+       board->  players[player_id] -> objets = chance->numero_de_la_carte;
     }
     if(chance -> numero_de_la_carte == 11){
-      return  board-> player_id -> objet = chance->numero_de_la_carte;
+      board->  players[player_id]-> objets = chance->numero_de_la_carte;
     }
 
 }
@@ -100,26 +103,27 @@ int main(void)
     printf("-\n");
     // displaying board for debug
     display_board(board);
-
-    //debut de partie
-    int player_now = 0;
-    while (!victoire)
-    {
-        int lancer1 = dice();
-        int lancer2 = dice();
-
-        printf("&s lance 2 des : &d et &d \n",board->players[player_now],lancer1,lancer2);
-        board->players[player_now]->position += lancer1 + lancer2;
-        if (lancer1 == lancer2)
-        {
-            lancer1 = dice();
-            lancer2 = dice();
-            printf("Double !! les des sont relances : &d et &d", lancer1, lancer2);
-        }
-        if (player_now<board->player_number)
-          player_now += 1;
-        else
-          player_now = 0;
-    }
     return 0;
+}
+//debut de partie
+int player_now = 0;
+while (!victoire)
+{
+    int lancer1 = dice();
+    int lancer2 = dice();
+
+    printf("&s lance 2 des : &d et &d \n",board->players[player_now],lancer1,lancer2);
+    board->players[player_now]->position += lancer1 + lancer2;
+    if (lancer1 == lancer2)
+    {
+        lancer1 = dice();
+        lancer2 = dice();
+        printf("Double !! les des sont relances : &d et &d", lancer1, lancer2);
+    }
+    if (player_now<board->player_number)
+      player_now += 1;
+    else
+      player_now = 0;
+}
+return 0;
 }
