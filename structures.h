@@ -6,6 +6,7 @@ typedef struct  player_s
     char        *name;
     int         position;
     int         money;
+    int         objets;
 }               player_t;
 
 
