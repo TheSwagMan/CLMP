@@ -1,9 +1,5 @@
 #include "monopoly.h"
-srand(time(NULL));
-int frand_2(int a,int b)
-{
-    return ((rand() % (b-a)) + 1);
-}
+#include "utils.c"
 void apply_card_prison(board_t board,int player_id,chance_t chance){
      if(chance->numero_de_la_carte==0){
         printf("allez en prison")
