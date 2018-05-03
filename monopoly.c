@@ -98,29 +98,32 @@ int main(void)
     printf("-\n");
     // displaying board for debug
     display_board(board);
+
+    //debut de partie
+    int player_now = 0;
+    while (1)
+    {
+        int lancer1 = dice();
+        int lancer2 = dice();
+
+        printf("%s lance 2 des : %d et %d \n", board->players[player_now]->name, lancer1, lancer2);
+        if (board->players[player_now]->prison_for == 0)
+            board->players[player_now]->position = (board->players[player_now]->position + (lancer1 + lancer2)) % CASE_COUNT;
+        else
+        {
+            if (lancer1 == lancer2)
+            {
+                printf("%s sort de prison",board->players[player_now]->name);
+                board->players[player_now]->prison_for = 0;
+            }
+            else
+                board->players[player_now]->prison_for -=1;
+        }
+
+        if (player_now<board->player_number)
+            player_now += 1;
+        else
+            player_now = 0;
+    }
     return 0;
 }
-/* 
-//debut de partie
-int player_now = 0;
-while (!victoire)
-{
-    int lancer1 = dice();
-    int lancer2 = dice();
-
-    printf("&s lance 2 des : &d et &d \n",board->players[player_now],lancer1,lancer2);
-    board->players[player_now]->position += lancer1 + lancer2;
-    if (lancer1 == lancer2)
-    {
-        lancer1 = dice();
-        lancer2 = dice();
-        printf("Double !! les des sont relances : &d et &d", lancer1, lancer2);
-    }
-    if (player_now<board->player_number)
-      player_now += 1;
-    else
-      player_now = 0;
-}
-return 0;
-}
-*/
