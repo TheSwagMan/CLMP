@@ -110,32 +110,52 @@ char **formatted_case(board_t *board, int case_num, int *players, int players_co
             exit(-1);
         *(r[i]) = '\0';
     }
-    if (c.type == TYPE_STREET)
+    switch (c.type)
     {
-        r[0][0] = 'A' + c.category;
-        strcpy(r[0] + 1, " - ");
-        strcpy(r[0] + 4, c.name);
-        r[0][4 + strlen(c.name)] = '\0';
-        i = 0;
-        if (c.owner >= 0)
-        {
-            t = my_itoa(c.owner);
-            i = strlen(t);
-            strcpy(r[1], t);
-            strcpy(r[1] + i, " - ");
-            i += 3;
-        }
-        r[1][i++] = '$';
-        strcpy(r[1] + i, my_itoa(c.price));
-        r[1][i + strlen(my_itoa(c.price))] = '\0';
-    }
-    if (c.type == TYPE_START)
-    {
-        strcpy(r[0], "DEBUT");
-    }
-    if (c.type == TYPE_PRISON)
-    {
-        strcpy(r[0], "PRISON");
+        case TYPE_STREET:
+            r[0][0] = 'A' + c.category;
+            strcpy(r[0] + 1, " - ");
+            strcpy(r[0] + 4, c.name);
+            r[0][4 + strlen(c.name)] = '\0';
+            i = 0;
+            if (c.owner >= 0)
+            {
+                t = my_itoa(c.owner);
+                i = strlen(t);
+                strcpy(r[1], t);
+                strcpy(r[1] + i, " - ");
+                i += 3;
+            }
+            r[1][i++] = '$';
+            strcpy(r[1] + i, my_itoa(c.price));
+            r[1][i + strlen(my_itoa(c.price))] = '\0';
+            break;
+        case TYPE_START:
+            strcpy(r[0], "DEBUT");
+            break;
+        case TYPE_PRISON:
+            strcpy(r[0], "PRISON");
+            break;
+        case TYPE_STATION:
+            strcpy(r[0], "GARE ");
+            strcpy(r[0] + 5, c.name);
+            r[1][0] = '$';
+            strcpy(r[1] + 1, my_itoa(c.price));
+            break;
+        case TYPE_LUCKY:
+            strcpy(r[1], "CHANCE");
+            break;
+        case TYPE_GOPRISON:
+            strcpy(r[1], "ALLEZ EN PRISON");
+            break;
+        case TYPE_PARK:
+            strcpy(r[1], "PARC");
+            break;
+        case TYPE_TAX:
+            strcpy(r[1], "TAXE");
+            break;
+        default:
+            break;
     }
     if (!(p = (char **)malloc(players_count * sizeof(char *))))
         exit(-1);
