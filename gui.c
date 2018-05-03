@@ -128,13 +128,16 @@ char **formatted_case(board_t *board, int case_num, int *players, int players_co
         r[1][i++] = '$';
         strcpy(r[1] + i, my_itoa(c.price));
         r[1][i + strlen(my_itoa(c.price))] = '\0';
-        if (!(p = (char **)malloc(players_count * sizeof(char *))))
-            exit(-1);
-        for (i = 0; i < players_count; i++)
-            p[i] = my_itoa(players[i]);
-        r[3] = join((char *)", ", p, players_count);
-        printf("%s\n", r[2]);
     }
+    if (c.type == TYPE_START)
+    {
+        strcpy(r[0], "START");
+    }
+    if (!(p = (char **)malloc(players_count * sizeof(char *))))
+        exit(-1);
+    for (i = 0; i < players_count; i++)
+        p[i] = my_itoa(players[i]);
+    r[3] = join((char *)", ", p, players_count);
     return (r);
 }
 
