@@ -1,37 +1,37 @@
 #include "monopoly.h"
 #include "utils.c"
-void apply_card_prison(board_t board,int player_id,chance_t chance){
-     if(chance->numero_de_la_carte==0){
-        printf("allez en prison")
+
+
+void apply_card_prison(board_t *board, int player_id, chance_t *chance){
+     if (chance->numero_de_la_carte == 0){
+        printf("allez en prison");
         board->players[player_id]->position = 8;
      }
-     if(chance->numero_de_la_carte==1){
+     if (chance->numero_de_la_carte == 1){
         printf("Recevez 250$ de chaque joueur");
         board->players[player_id]->money += (250  * (board->player_number));
      }
-     if(chance->numero_de_la_carte==2){
-        printf("Payer 200$ d'amende")
+     if (chance->numero_de_la_carte == 2){
+        printf("Payer 200$ d'amende");
         board->players[player_id]-> money -= 200;
      }
-     if(chance->numero_de_la_carte==3){
+     if (chance->numero_de_la_carte == 3){
         printf("vous pouvez rejouer");
-
      }
-     if(chance->numero_de_la_carte==4){
-        t[4]={4,11,21,27};
-        int c=frand_2(0,4);
-        printf("allez à la gare: &s",board->cases[nombre].name);
-        board->players[player_id]->position= t[C];
+     if (chance->numero_de_la_carte == 4){
+        int t[] = {4, 11, 21, 27};
+        int c = frand_2(0, sizeof(t));
+        printf("allez à la gare: %s", board->cases[t[c]].name);
+        board->players[player_id]->position= t[c];
      }
-     if(chance->numero_de_la_carte==5){
-        int nombre= frand_2(1,33);
-        if( nombre != 3 || nombre != 4 || nombre  !=  6 || nombre !=  8 || nombre !=  11 ||nombre !=  13 || nombre  !=  16 || nombre  !=  18 ||nombre !=  21 || nombre != 24 || nombre != 27 || nombre != 28 || nombre != 30 ){
-            printf("allez à :&s",board->cases[nombre].name);
-            board->players[player_id]->position = nombre;
-        }
+     if (chance->numero_de_la_carte==5){
+        int t[] = {3, 4, 6, 8, 11, 13, 16, 18, 21, 24, 27, 28, 30};
+        int c = frand_2(0, sizeof(t));
+        printf("allez à : %s",board->cases[t[c]].name);
+        board->players[player_id]->position = t[c];
      }
-     if( chance->numero_de_la_carte==6){
-        int nombre=frand_2(1,33)
+     if (chance->numero_de_la_carte == 6){
+        int nombre=frand_2(1,33);
         printf("une rue ou une gare va etre réinitialiser");
         if(nombre != 3 || nombre  !=  6 || nombre !=  8 ||nombre !=  13 || nombre  !=  16 || nombre  !=  18 || nombre != 24 || nombre != 28 || nombre != 30 ){
           board->cases[nombre].owner = -1;
@@ -101,6 +101,7 @@ int main(void)
     display_board(board);
     return 0;
 }
+/* 
 //debut de partie
 int player_now = 0;
 while (!victoire)
@@ -123,3 +124,4 @@ while (!victoire)
 }
 return 0;
 }
+*/

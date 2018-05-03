@@ -131,7 +131,11 @@ char **formatted_case(board_t *board, int case_num, int *players, int players_co
     }
     if (c.type == TYPE_START)
     {
-        strcpy(r[0], "START");
+        strcpy(r[0], "DEBUT");
+    }
+    if (c.type == TYPE_PRISON)
+    {
+        strcpy(r[0], "PRISON");
     }
     if (!(p = (char **)malloc(players_count * sizeof(char *))))
         exit(-1);
