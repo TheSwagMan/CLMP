@@ -1,5 +1,4 @@
 #include "monopoly.h"
-#include "utils.c"
 
 
 void apply_card_prison(board_t *board, int player_id, chance_t *chance){

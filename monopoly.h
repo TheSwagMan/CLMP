@@ -3,6 +3,7 @@
 
 # include <stdio.h>
 # include "gui.h"
+# include "utils.h"
 
 case_t CASES[] = {
     {(char *)"Depart", 0, TYPE_START, 0, 0, 0},
