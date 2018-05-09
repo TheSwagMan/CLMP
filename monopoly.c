@@ -127,3 +127,81 @@ int main(void)
     }
     return 0;
 }
+
+
+//Je sais pas trop où le mettre donc je place ici mon programme à compléter (#JR)
+//Actions lorsqu'on arrive sur une case, effets produits
+if (board->cases->type==TYPE_STREET)  //arrive sur une case rue
+{
+  if (board->cases->owner==-1)             //personne n'a la case
+  {
+    if (board->player[i]->money => initial_price)        //assez d'argent pour acheter?
+    {
+      printf "Acheter?";                  //à mieux rédiger
+          if(Acheter)
+          {
+            board->player[i]->money = board->player[i]->money - initial_price;
+            board->cases->owner = i;                    //achat de la case
+          }
+    }
+  }
+  else //qqn a la case
+  {
+    board->player[i]->money = board->player[i]->money - price; // paye le loyer (price à revoir)
+  }
+    if (board->player[i]->money - price =< 0) // si pas assez d'argent pour payer (price à voir)
+    {
+      board->player[i]->money = board->player[i]->money + price;
+      board->cases->owner = i;
+      printf("Revendez"); //obligation de revendre un bien immobilier
+      // à compléter
+    }
+    else
+    {
+      board->player[i]->money = board->player[i]->money - price;
+      printf ("Racheter?");         //à mieux rédiger, rachat de la rue?
+    }
+      if(Racheter)          //Rachat de la rue
+      {
+        board->player[i]->money = board->player[i]->money + price;
+        board->cases->owner = i;
+      }
+}
+
+if(board->cases->type==TYPE_GOPRISON) //arrive sur une case lui disant d'aller direct en prison
+{
+  board->player[i]->position = 8;
+  //à compléter
+}
+
+if(board->cases->type==TYPE_STATION)   //arrive sur une case type gare
+{
+  if(board->cases->owner==-1)           //personne n'a la case
+  {
+    if(board->player[i]->money > initial_price)    //assez d'argent pour acheter
+    {
+      printf"Acheter?";
+    }
+      if(acheter)
+      {
+        board->player[i]->money = board->player[i]->money - initial_price;
+        board->cases->owner = i;                //achète et possède la case
+      }
+      else
+      {
+        board->player[i]->money = board->player[i] - price;    //price à voir
+      }
+  }
+}
+
+if(board->cases->type==TYPE_TAX)  //arrive sur une case taxe
+{
+  board->player[i]->money = board->player[i]->money - TAX;
+  CAGNOTTE = CAGNOTTE + TAX; //CAGNOTTE est une variable stockant l'argent perdu lors des actions sur le board( ex: prison, taxes, etc...)
+}
+
+if(board->cases->type==TAXE_PARK) //arrive sur la case CAGNOTTE
+{
+  board->player[i]->money = board->player[i]->money + CAGNOTTE; //gagne l'argent stocké dans la CAGNOTTE
+}
+//ok//ok//ok
