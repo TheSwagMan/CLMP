@@ -12,7 +12,7 @@ void apply_case(board_t *board, int player_number, int case_number)
             if (board->players[player_number]->money >= board->cases[case_number].initial_price)        //assez d'argent pour acheter?
             {
                 printf("Acheter ? (0/1)");                  //à mieux rédiger
-                fgets(buff, 10, 1);
+                fgets(buff, 10, stdin);
                 if (atoi(buff))
                 {
                     board->players[player_number]->money = board->players[player_number]->money - board->cases[case_number].initial_price;
@@ -22,30 +22,31 @@ void apply_case(board_t *board, int player_number, int case_number)
         }
         else //qqn a la case
         {
-            board->players[player_number]->money -= board->cases[case_number].price; // paye le loyer (price à revoir)
-        }
-        if (board->player[i]->money - price =< 0) // si pas assez d'argent pour payer (price à voir)
+        if (board->players[player_number]->money < board->cases[case_number].price) // si pas assez d'argent pour payer (price à voir)
         {
-            board->player[i]->money = board->player[i]->money + price;
-            board->cases->owner = i;
+            // NO
+            board->players[player_number]->money += board->cases[case_number].price;
             printf("Revendez"); //obligation de revendre un bien immobilier
             // à compléter
         }
         else
         {
-            board->player[i]->money = board->player[i]->money - price;
-            printf ("Racheter?");         //à mieux rédiger, rachat de la rue?
+            board->players[player_number]->money -= board->cases[case_number].price;
         }
+
+            board->players[player_number]->money -= board->cases[case_number].price; // paye le loyer (price à revoir)
+        }
+        /* 
         if(Racheter)          //Rachat de la rue
         {
             board->player[i]->money = board->player[i]->money + price;
             board->cases->owner = i;
-        }
+        }*/
     }
 
     if(board->cases->type==TYPE_GOPRISON) //arrive sur une case lui disant d'aller direct en prison
     {
-        board->player[i]->position = 8;
+        board->players[player_number]->position = 8;
         //à compléter
     }
 
@@ -53,10 +54,11 @@ void apply_case(board_t *board, int player_number, int case_number)
     {
         if(board->cases->owner==-1)           //personne n'a la case
         {
-            if(board->player[i]->money > initial_price)    //assez d'argent pour acheter
+            if(board->players[player_number]->money > board->cases[case_number].initial_price)    //assez d'argent pour acheter
             {
-                printf"Acheter?";
+                printf("Acheter?");
             }
+            /*
             if(acheter)
             {
                 board->player[i]->money = board->player[i]->money - initial_price;
@@ -65,10 +67,11 @@ void apply_case(board_t *board, int player_number, int case_number)
             else
             {
                 board->player[i]->money = board->player[i] - price;    //price à voir
-            }
+                }
+                */
         }
     }
-
+/*
     if(board->cases->type==TYPE_TAX)  //arrive sur une case taxe
     {
         board->player[i]->money = board->player[i]->money - TAX;
@@ -79,6 +82,7 @@ void apply_case(board_t *board, int player_number, int case_number)
     {
         board->player[i]->money = board->player[i]->money + CAGNOTTE; //gagne l'argent stocké dans la CAGNOTTE
     }
+    */
 }
 
 
