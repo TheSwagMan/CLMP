@@ -96,7 +96,7 @@ void apply_case(board_t *board)
 int main(void)
 {
     char buffer[100];
-    int i;
+    int i, de1, de2;
 
     // seeding random algorithm
     srand(time(NULL));
@@ -136,17 +136,17 @@ int main(void)
     board->game_running = 1;
     while (board->game_running)
     {
+        de1= dice();
+        de2 = dice();
         display_board(board);
         printf("Au tour de %s !", board->players[board->current_player]->name);
         fgets(buffer, sizeof(buffer), stdin);
-        int lancer1 = dice();
-        int lancer2 = dice();
-        printf("%s lance les des : %d et %d (%d).\n", board->players[board->current_player]->name, lancer1, lancer2, lancer1 + lancer2);
+        printf("%s lance les des : %d et %d (%d).\n", board->players[board->current_player]->name, de1, de2, de1 + de2);
         // player is not in prison
         if (board->players[board->current_player]->prison_for == 0)
         {
             // move player and reward for turn
-            board->players[board->current_player]->position += lancer1 + lancer2;
+            board->players[board->current_player]->position += de1 + de2;
             if (board->players[board->current_player]->position >= CASE_COUNT)
             {
                 board->players[board->current_player]->position = board->players[board->current_player]->position % CASE_COUNT;
@@ -156,7 +156,7 @@ int main(void)
         else
         {
             board->players[board->current_player]->prison_for--;
-            if (lancer1 == lancer2)
+            if (de1 == de2)
             {
                 printf("%s sort de prison !", board->players[board->current_player]->name);
                 board->players[board->current_player]->prison_for = 0;
