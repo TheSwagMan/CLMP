@@ -5,13 +5,14 @@ void buy_case(board_t *board)
 {
     int player_number = board->current_player;
     int case_number = board->players[player_number]->position;
+    player_t *player = board->players[player_number]; 
 
     // enough money ?
-    if (board->players[player_number]->money >= board->cases[case_number].initial_price)
+    if (player->money >= board->cases[case_number].initial_price)
     {
         if (ask((char *)"Acheter ?"))
         {
-            board->players[player_number]->money -= board->cases[case_number].initial_price;
+            player->money -= board->cases[case_number].initial_price;
             board->cases[case_number].owner = player_number;
         }
     }
@@ -22,11 +23,12 @@ void pay_rent(board_t *board)
 {
     int player_number = board->current_player;
     int case_number = board->players[player_number]->position;
+    player_t *player = board->players[player_number]; 
 
     // can player pay ?
-    if (board->players[player_number]->money >= board->cases[case_number].price)
+    if (player->money >= board->cases[case_number].price)
     {
-        board->players[player_number]->money -= board->cases[case_number].price;
+        player->money -= board->cases[case_number].price;
         board->players[board->cases[case_number].owner]->money += board->cases[case_number].price;
     }
     else
@@ -39,7 +41,9 @@ void handle_street_station(board_t *board)
 {
     int player_number = board->current_player;
     int case_number = board->players[player_number]->position;
+    player_t *player = board->players[player_number]; 
 
+    (void)player;
     // case free
     if (board->cases[case_number].owner == -1)
         buy_case(board);
@@ -61,6 +65,7 @@ void apply_case(board_t *board)
 {
     int player_number = board->current_player;
     int case_number = board->players[player_number]->position;
+    player_t *player = board->players[player_number]; 
 
     switch (board->cases[case_number].type)
     {
@@ -68,17 +73,18 @@ void apply_case(board_t *board)
             handle_street_station(board);
             break;
         case TYPE_GOPRISON:
-            board->players[player_number]->position = 8;
+            player->position = 8;
+            player->prison_for = TIME_PRISON;
             break;
         case TYPE_STATION:
             handle_street_station(board);
             break;
         case TYPE_TAX:
-            board->players[player_number]->money -= MONEY_TAX;
+            player->money -= MONEY_TAX;
             board->jackpot += MONEY_TAX;
             break;
         case TYPE_PARK:
-            board->players[player_number]->money += board->jackpot; //gagne l'argent stocké dans la CAGNOTTE
+            player->money += board->jackpot; //gagne l'argent stocké dans la CAGNOTTE
             board->jackpot = 0;
             break;
         default:
