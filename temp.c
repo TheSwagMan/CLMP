@@ -1,16 +1,28 @@
 void apply_card_lucky(board_t *board, int player_id, chance_t *chance){
+
     if (chance->numero_de_la_carte == 0){
         printf("allez en prison");
         board->players[player_id]->position = 8;
+        board->players[player_id]->prison_for = 2;
     }
+
     if (chance->numero_de_la_carte == 1){
         printf("Recevez 250$ de chaque joueur");
         board->players[player_id]->money += (250  * (board->player_number));
+        int i;
+        for (i = 0, i < board->player_number, i++)
+        {
+            if (i != player_id)
+                board->players[player_id]->money -= 250;
+        }
     }
+
     if (chance->numero_de_la_carte == 2){
         printf("Payer 200$ d'amende");
-        board->players[player_id]-> money -= 200;
+        board->players[player_id]->money -= 200;
+        board->jackpot += 200;
     }
+
     if (chance->numero_de_la_carte == 3){
         printf("vous pouvez rejouer");
     }

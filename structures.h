@@ -26,6 +26,7 @@ typedef struct  board_s
     case_t      *cases;
     int         player_number;
     player_t    **players;
+    int         jackpot;
 
 }               board_t;
 typedef struct carte_chance

@@ -36,7 +36,7 @@ void apply_case(board_t *board, int player_number, int case_number)
 
             board->players[player_number]->money -= board->cases[case_number].price; // paye le loyer (price à revoir)
         }
-        /* 
+        /*
         if(Racheter)          //Rachat de la rue
         {
             board->player[i]->money = board->player[i]->money + price;
@@ -71,18 +71,19 @@ void apply_case(board_t *board, int player_number, int case_number)
                 */
         }
     }
-/*
+
     if(board->cases->type==TYPE_TAX)  //arrive sur une case taxe
     {
-        board->player[i]->money = board->player[i]->money - TAX;
-        CAGNOTTE = CAGNOTTE + TAX; //CAGNOTTE est une variable stockant l'argent perdu lors des actions sur le board( ex: prison, taxes, etc...)
+        board->player[player_now]->money -= 200;
+        board->jackpot += 200; //CAGNOTTE est une variable stockant l'argent perdu lors des actions sur le board( ex: prison, taxes, etc...)
     }
 
     if(board->cases->type==TAXE_PARK) //arrive sur la case CAGNOTTE
     {
-        board->player[i]->money = board->player[i]->money + CAGNOTTE; //gagne l'argent stocké dans la CAGNOTTE
+        board->player[i]->money += board->jackpot; //gagne l'argent stocké dans la CAGNOTTE
+        board->jackpot = 0;
     }
-    */
+
 }
 
 
