@@ -1,9 +1,12 @@
 #include "monopoly.h"
 
 
-void apply_case(board_t *board, int player_number, int case_number)
+void apply_case(board_t *board)
 {
     char buff[10];
+    int player_number = board->current_player;
+    int case_number = board->players[player_number]->position;
+
     //Actions lorsqu'on arrive sur une case, effets produits
     if (board->cases[case_number].type==TYPE_STREET)  //arrive sur une case rue
     {
@@ -115,7 +118,7 @@ int main(void)
             exit(-2);
         buffer[strlen(buffer) - 1] = '\0';
         // default player settings
-        p->money = 100;
+        p->money = MONEY_START;
         if (!(p->name = (char *)malloc((strlen(buffer) + 1) * sizeof(char))))
             exit(-1);
         if (!(strcpy(p->name, buffer)))
@@ -123,37 +126,46 @@ int main(void)
         p->position = 0;
         board->players[i] = p;
     }
-    printf("-\n");
-    // displaying board for debug
-    display_board(board);
-
     //debut de partie
-    int player_now = 0;
-    while (1)
+    board->current_player = 0;
+    board->game_running = 1;
+    while (board->game_running)
     {
+        display_board(board);
+        printf("Au tour de %s !", board->players[board->current_player]->name);
+        fgets(buffer, sizeof(buffer), stdin);
         int lancer1 = dice();
         int lancer2 = dice();
-
-        printf("%s lance 2 des : %d et %d \n", board->players[player_now]->name, lancer1, lancer2);
-        if (board->players[player_now]->prison_for == 0)
+        printf("%s lance les des : %d et %d (%d).\n", board->players[board->current_player]->name, lancer1, lancer2, lancer1 + lancer2);
+        // player is not in prison
+        if (board->players[board->current_player]->prison_for == 0)
         {
-            board->players[player_now]->position = (board->players[player_now]->position + (lancer1 + lancer2)) % CASE_COUNT;
+            // move player and reward for turn
+            board->players[board->current_player]->position += lancer1 + lancer2;
+            if (board->players[board->current_player]->position >= CASE_COUNT)
+            {
+                board->players[board->current_player]->position = board->players[board->current_player]->position % CASE_COUNT;
+                board->players[board->current_player]->money += MONEY_TURN_REWARD;
+            }
         }
         else
         {
+            board->players[board->current_player]->prison_for--;
             if (lancer1 == lancer2)
             {
-                printf("%s sort de prison",board->players[player_now]->name);
-                board->players[player_now]->prison_for = 0;
-            }
-            else
-            {
-                board->players[player_now]->prison_for -= 1;
-
+                printf("%s sort de prison !", board->players[board->current_player]->name);
+                board->players[board->current_player]->prison_for = 0;
             }
         }
-
-        player_now = (player_now + 1) % board->player_number;
+        // apply case effect
+        apply_case(board);
+        // next player
+        board->current_player++;
+        // all player played -> new round
+        if (board->current_player >= board->player_number)
+        {
+            board->current_player = 0;
+        }
     }
     return 0;
 }

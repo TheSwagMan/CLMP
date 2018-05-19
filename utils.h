@@ -4,6 +4,8 @@
 # include <stdlib.h>
 # include <string.h>
 
+# define MAX(a, b)  (a > b ? a : b)
+
 char    *my_itoa(int i);
 char    *join(char *s, char **a, int c);
 int     dice(void);

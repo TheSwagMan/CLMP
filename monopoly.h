@@ -5,6 +5,9 @@
 # include "gui.h"
 # include "utils.h"
 
+# define MONEY_START        1000
+# define MONEY_TURN_REWARD  200
+
 case_t CASES[] = {
     {(char *)"Depart", 0, TYPE_START, 0, 0, 0},
     {(char *)"Belleville", 0, TYPE_STREET, -1, 60, 60},

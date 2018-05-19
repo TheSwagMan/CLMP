@@ -27,16 +27,17 @@ typedef struct  board_s
     int         player_number;
     player_t    **players;
     int         jackpot;
-
+    int         current_player;
+    int         game_running;
 }               board_t;
+
 typedef struct carte_chance
 {
-char            *nom;
-//si carte concervable
-int              concervable;
-
-//entier de 0 a 12
-int              numero_de_la_carte;
+    char        *nom;
+    //si carte concervable
+    int         concervable;
+    //entier de 0 a 12
+    int         numero_de_la_carte;
 
 }                     chance_t;
 

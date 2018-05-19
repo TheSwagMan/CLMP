@@ -15,7 +15,7 @@
 # define V_SIZE     4
 # define H_SIZE     22
 # define GRID_SIZE  9
-# define CASE_COUNT 4 * (GRID_SIZE - 1)
+# define CASE_COUNT (4 * (GRID_SIZE - 1))
 
 
 void    display_board(board_t *board);
