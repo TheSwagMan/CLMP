@@ -12,7 +12,7 @@ void buy_case(board_t *board)
         if (ask((char *)"Acheter ?"))
         {
             board->players[player_number]->money -= board->cases[case_number].initial_price;
-            board->cases[case_number].owner = player_number;                    //achat de la case
+            board->cases[case_number].owner = player_number;
         }
     }
 
@@ -35,6 +35,28 @@ void pay_rent(board_t *board)
     }
 }
 
+void handle_street_station(board_t *board)
+{
+    int player_number = board->current_player;
+    int case_number = board->players[player_number]->position;
+
+    // case free
+    if (board->cases[case_number].owner == -1)
+        buy_case(board);
+    else
+        pay_rent(board);
+    // TODO: FIX PRICE
+    /* 
+       int price=0;
+       if (board->players[player_number]->money >= price && ask((char *)"Racheter ?"))
+       {
+       board->players[player_number]->money -= price;
+       board->players[board->cases[case_number].owner]->money += price;
+       board->cases->owner = player_number;
+       }
+       */
+}
+
 void apply_case(board_t *board)
 {
     int player_number = board->current_player;
@@ -43,31 +65,13 @@ void apply_case(board_t *board)
     switch (board->cases[case_number].type)
     {
         case TYPE_STREET:
-            // street free
-            if (board->cases[case_number].owner == -1)
-                buy_case(board);
-            else
-                pay_rent(board);
-            // TODO: FIX PRICE
-            /* 
-               int price=0;
-               if (board->players[player_number]->money >= price && ask((char *)"Racheter ?"))
-               {
-               board->players[player_number]->money -= price;
-               board->players[board->cases[case_number].owner]->money += price;
-               board->cases->owner = player_number;
-               }
-               */
+            handle_street_station(board);
             break;
         case TYPE_GOPRISON:
             board->players[player_number]->position = 8;
             break;
         case TYPE_STATION:
-            // station free
-            if (board->cases[case_number].owner == -1)
-                buy_case(board);
-            else
-                pay_rent(board);
+            handle_street_station(board);
             break;
         case TYPE_TAX:
             board->players[player_number]->money -= MONEY_TAX;
