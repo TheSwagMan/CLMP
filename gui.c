@@ -139,8 +139,18 @@ char **formatted_case(board_t *board, int case_num, int *players, int players_co
         case TYPE_STATION:
             strcpy(r[0], "GARE ");
             strcpy(r[0] + 5, c.name);
-            r[1][0] = '$';
-            strcpy(r[1] + 1, my_itoa(c.price));
+            i = 0;
+            if (c.owner >= 0)
+            {
+                t = my_itoa(c.owner);
+                i = strlen(t);
+                strcpy(r[1], t);
+                strcpy(r[1] + i, " - ");
+                i += 3;
+            }
+            r[1][i++] = '$';
+            strcpy(r[1] + i, my_itoa(c.price));
+            r[1][i + strlen(my_itoa(c.price))] = '\0';
             break;
         case TYPE_LUCKY:
             strcpy(r[1], "CHANCE");
