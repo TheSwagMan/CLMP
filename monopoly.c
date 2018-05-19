@@ -1,92 +1,85 @@
 #include "monopoly.h"
 
 
-void apply_case(board_t *board)
+void buy_case(board_t *board)
 {
-    char buff[10];
     int player_number = board->current_player;
     int case_number = board->players[player_number]->position;
 
-    // Actions lorsqu'on arrive sur une case, effets produits
-    if (board->cases[case_number].type==TYPE_STREET)  //arrive sur une case rue
+    // enough money ?
+    if (board->players[player_number]->money >= board->cases[case_number].initial_price)
     {
-        if (board->cases[case_number].owner == -1)             //personne n'a la case
+        if (ask((char *)"Acheter ?"))
         {
-            if (board->players[player_number]->money >= board->cases[case_number].initial_price)        //assez d'argent pour acheter?
-            {
-                printf("Acheter ? (0/1)");                  //à mieux rédiger
-                fgets(buff, 10, stdin);
-                if (atoi(buff))
-                {
-                    board->players[player_number]->money = board->players[player_number]->money - board->cases[case_number].initial_price;
-                    board->cases[case_number].owner = player_number;                    //achat de la case
-                }
-            }
+            board->players[player_number]->money -= board->cases[case_number].initial_price;
+            board->cases[case_number].owner = player_number;                    //achat de la case
         }
-        else //qqn a la case
-        {
-            if (board->players[player_number]->money < board->cases[case_number].price) // si pas assez d'argent pour payer (price à voir)
-            {
-                // NO
-                board->players[player_number]->money += board->cases[case_number].price;
-                printf("Revendez"); //obligation de revendre un bien immobilier
-                // à compléter
-            }
+    }
+
+}
+
+void pay_rent(board_t *board)
+{
+    int player_number = board->current_player;
+    int case_number = board->players[player_number]->position;
+
+    // can player pay ?
+    if (board->players[player_number]->money >= board->cases[case_number].price)
+    {
+        board->players[player_number]->money -= board->cases[case_number].price;
+        board->players[board->cases[case_number].owner]->money += board->cases[case_number].price;
+    }
+    else
+    {
+        // TODO: HANDLE RESELL
+    }
+}
+
+void apply_case(board_t *board)
+{
+    int player_number = board->current_player;
+    int case_number = board->players[player_number]->position;
+
+    switch (board->cases[case_number].type)
+    {
+        case TYPE_STREET:
+            // street free
+            if (board->cases[case_number].owner == -1)
+                buy_case(board);
             else
-            {
-                board->players[player_number]->money -= board->cases[case_number].price;
-            }
-
-            board->players[player_number]->money -= board->cases[case_number].price; // paye le loyer (price à revoir)
-        }
-        /*
-           if(Racheter)          //Rachat de la rue
-           {
-           board->player[i]->money = board->player[i]->money + price;
-           board->cases->owner = i;
-           }*/
-    }
-
-    if(board->cases->type==TYPE_GOPRISON) //arrive sur une case lui disant d'aller direct en prison
-    {
-        board->players[player_number]->position = 8;
-        //à compléter
-    }
-
-    if(board->cases->type==TYPE_STATION)   //arrive sur une case type gare
-    {
-        if(board->cases->owner==-1)           //personne n'a la case
-        {
-            if(board->players[player_number]->money > board->cases[case_number].initial_price)    //assez d'argent pour acheter
-            {
-                printf("Acheter?");
-            }
-            /*
-               if(acheter)
+                pay_rent(board);
+            // TODO: FIX PRICE
+            /* 
+               int price=0;
+               if (board->players[player_number]->money >= price && ask((char *)"Racheter ?"))
                {
-               board->player[i]->money = board->player[i]->money - initial_price;
-               board->cases->owner = i;                //achète et possède la case
-               }
-               else
-               {
-               board->player[i]->money = board->player[i] - price;    //price à voir
+               board->players[player_number]->money -= price;
+               board->players[board->cases[case_number].owner]->money += price;
+               board->cases->owner = player_number;
                }
                */
-        }
+            break;
+        case TYPE_GOPRISON:
+            board->players[player_number]->position = 8;
+            break;
+        case TYPE_STATION:
+            // station free
+            if (board->cases[case_number].owner == -1)
+                buy_case(board);
+            else
+                pay_rent(board);
+            break;
+        case TYPE_TAX:
+            board->players[player_number]->money -= MONEY_TAX;
+            board->jackpot += MONEY_TAX;
+            break;
+        case TYPE_PARK:
+            board->players[player_number]->money += board->jackpot; //gagne l'argent stocké dans la CAGNOTTE
+            board->jackpot = 0;
+            break;
+        default:
+            break;
     }
-
-    if(board->cases->type == TYPE_TAX)  //arrive sur une case taxe
-    {
-        board->players[player_number]->money -= 200;
-        board->jackpot += 200; //CAGNOTTE est une variable stockant l'argent perdu lors des actions sur le board( ex: prison, taxes, etc...)
-    }
-
-    if(board->cases->type == TYPE_PARK) //arrive sur la case CAGNOTTE
-    {
-        board->players[player_number]->money += board->jackpot; //gagne l'argent stocké dans la CAGNOTTE
-        board->jackpot = 0;
-    }
-
 }
 
 
@@ -95,6 +88,8 @@ int main(void)
     char buffer[100];
     int i;
 
+    // seeding random algorithm
+    srand(time(NULL));
     // creating board
     board_t  *board;
     if (!(board = (board_t *)malloc(sizeof(board_t))))
@@ -157,6 +152,7 @@ int main(void)
                 board->players[board->current_player]->prison_for = 0;
             }
         }
+        display_board(board);
         // apply case effect
         apply_case(board);
         // next player
@@ -170,5 +166,3 @@ int main(void)
     return 0;
 }
 
-
-//Je sais pas trop où le mettre donc je place ici mon programme à compléter (#JR)

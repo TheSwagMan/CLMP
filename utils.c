@@ -59,7 +59,32 @@ int dice(void)
 }
 // je l'utilise pour les cartes chances
 
-int frand_2(int a,int b)
+int randint(int a,int b)
 {
     return ((rand() % (b-a)) + 1);
+}
+
+int     ask(char *s)
+{
+    char buffer[10];
+    int ch;
+    
+    printf("%s (O/n) :", s);
+    fgets(buffer, sizeof(buffer), stdin);
+    // clear stdin buffer
+    if (!strchr(buffer, '\n'))
+        while (((ch = getchar()) != EOF) && (ch != '\n'));
+    // parse buffer
+    for (ch = 0; ch < (int)strlen(buffer); ch++)
+    {
+        if (buffer[ch] == 'O' || buffer[ch] == 'o')
+            return (1);
+        else if (buffer[ch] == 'N' || buffer[ch] == 'n')
+            return (0);
+        // not a valid answer
+        else if ((buffer[ch] >= 'a' && buffer[ch] <= 'z')
+                || (buffer[ch] >= 'A' && buffer[ch] <= 'Z'))
+            return (ask(s));
+    }
+    return (1);
 }

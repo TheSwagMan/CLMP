@@ -1,12 +1,15 @@
 #ifndef _MONOPOLY_H_
 # define _MONOPOLY_H_
 
+# include <time.h>
+# include <stdlib.h>
 # include <stdio.h>
 # include "gui.h"
 # include "utils.h"
 
 # define MONEY_START        1000
 # define MONEY_TURN_REWARD  200
+# define MONEY_TAX          200
 
 case_t CASES[] = {
     {(char *)"Depart", 0, TYPE_START, 0, 0, 0},
