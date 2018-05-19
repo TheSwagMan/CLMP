@@ -72,15 +72,15 @@ void apply_case(board_t *board, int player_number, int case_number)
         }
     }
 
-    if(board->cases->type==TYPE_TAX)  //arrive sur une case taxe
+    if(board->cases->type == TYPE_TAX)  //arrive sur une case taxe
     {
-        board->player[player_now]->money -= 200;
+        board->players[player_number]->money -= 200;
         board->jackpot += 200; //CAGNOTTE est une variable stockant l'argent perdu lors des actions sur le board( ex: prison, taxes, etc...)
     }
 
-    if(board->cases->type==TAXE_PARK) //arrive sur la case CAGNOTTE
+    if(board->cases->type == TYPE_PARK) //arrive sur la case CAGNOTTE
     {
-        board->player[i]->money += board->jackpot; //gagne l'argent stocké dans la CAGNOTTE
+        board->players[player_number]->money += board->jackpot; //gagne l'argent stocké dans la CAGNOTTE
         board->jackpot = 0;
     }
 
