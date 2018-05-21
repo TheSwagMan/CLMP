@@ -61,12 +61,12 @@ void handle_street_station(board_t *board)
        */
 }
 
-void apply_card(board_t *board, int player_id, card_t *card)
+int apply_card(board_t *board, int player_id, card_t *card)
 {
-   card->effect(board, player_id, card->value); 
+   return card->effect(board, player_id, card->value); 
 }
 
-void apply_case(board_t *board)
+int apply_case(board_t *board)
 {
     int player_number = board->current_player;
     int case_number = board->players[player_number]->position;
@@ -96,11 +96,12 @@ void apply_case(board_t *board)
             card = &CARDS[SHUFFLED_CARDS[board->current_card]];
             display_card(card);
             getchar();
-            apply_card(board, player_number, card);
+            return apply_card(board, player_number, card);
             break;
         default:
             break;
     }
+    return (0);
 }
 
 void    shuffle_cards(void)
@@ -122,7 +123,7 @@ void    shuffle_cards(void)
 int main(void)
 {
     char buffer[100];
-    int i, de1, de2;
+    int i, de1, de2, replay;
 
     // seeding random algorithm
     srand(time(NULL));
@@ -162,6 +163,7 @@ int main(void)
     //debut de partie
     board->current_player = 0;
     board->game_running = 1;
+    replay = 0;
     while (board->game_running)
     {
         de1= dice();
@@ -192,14 +194,18 @@ int main(void)
         }
         display_board(board);
         // apply case effect
-        apply_case(board);
-        // next player
+        replay = apply_case(board);
+        if (!replay)
+        {
+            // next player
         board->current_player++;
         // all player played -> new round
         if (board->current_player >= board->player_number)
         {
             board->current_player = 0;
         }
+        }
+        replay = 0;
     }
     return 0;
 }

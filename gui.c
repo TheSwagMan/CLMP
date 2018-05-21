@@ -234,5 +234,6 @@ void    display_board(board_t *board)
 
 void display_card(card_t *card)
 {
+
     printf("%s %s", card->title, card->desc);
 }

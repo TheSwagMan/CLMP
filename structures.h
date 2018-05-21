@@ -37,7 +37,7 @@ typedef struct  card_s
     char        *title;
     char        *desc;
     int         value;
-    void        (*effect)(board_t *board, int owner, int value);
+    int        (*effect)(board_t *board, int owner, int value);
 }               card_t;
 
 enum            CASE_TYPES
