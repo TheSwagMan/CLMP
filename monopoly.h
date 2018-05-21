@@ -48,19 +48,24 @@ case_t CASES[] = {
 
 };
 
+void card_prison(int);
+void card_prize(int);
+
 chance_t CHANCE[] = {
-   {(char *)"prison",0,0},
-   {(char *)"cadeaux",0,1},
-   {(char *)"amende",0,2},
-   {(char *)"rejouer",0,3},
-   {(char *)"gare",0,4},
-   {(char *)"rue",0,5},
-   {(char *)"destruction",0,6},
-   {(char *)"impots",0,7},
-   {(char *)"parc gratuit",0,8},
-   {(char *)"sortie de prison",1,9},
-   {(char *)"loyer gratuit",1,10},
-   {(char *)"prochain loyer doublé",1,11}
+   {(char *)"Prison", (char *)"Vous allez en prison.", 0, card_prison, 0},
+   {(char *)"Cadeaux", (char *)"On vous offre un cadeau.", 100, card_prize, 0},
+   {(char *)"Cadeaux", (char *)"On vous offre un cadeau.", 300, card_prize, 0},
+   {(char *)"Cadeaux", (char *)"On vous offre un cadeau.", 1000, card_prize, 0},
+   {(char *)"amende", 0},
+   {(char *)"rejouer", 0},
+   {(char *)"gare", 0},
+   {(char *)"rue", 0},
+   {(char *)"destruction", 0},
+   {(char *)"impots", 0},
+   {(char *)"parc gratuit", 0},
+   {(char *)"sortie de prison", 1},
+   {(char *)"loyer gratuit", 1},
+   {(char *)"prochain loyer double", 1}
  };
 
 #endif /* _MONOPOLY_H_ */
