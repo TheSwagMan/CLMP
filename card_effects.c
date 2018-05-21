@@ -52,9 +52,9 @@ int card_destroy(board_t *board, int owner, int value)
     int c;
     do {
         c = randint(0, CASE_COUNT);
-    } while (board->cases[c].type != TYPE_STREET
-            || board->cases[c].type != TYPE_STATION
-            || board->cases[c].owner == -1);
+    } while ((board->cases[c].type != TYPE_STREET
+            || board->cases[c].type != TYPE_STATION)
+            && board->cases[c].owner == -1);
     board->cases[c].owner = -1;
     return (0);
 }
