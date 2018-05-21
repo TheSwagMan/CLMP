@@ -31,14 +31,14 @@ typedef struct  board_s
     int         game_running;
 }               board_t;
 
-typedef struct carte_chance
+typedef struct chance_s
 {
     char        *title;
     char        *desc;
     int         value;
-    void        (*effect)(int);
+    void        (*effect)(board_t *board, int owner, int value);
     int         keep;
-}                     chance_t;
+}               chance_t;
 
 enum            CASE_TYPES
 {

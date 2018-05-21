@@ -6,11 +6,8 @@
 # include <stdio.h>
 # include "gui.h"
 # include "utils.h"
-
-# define MONEY_START        1000
-# define MONEY_TURN_REWARD  200
-# define MONEY_TAX          200
-# define TIME_PRISON        3
+# include "card_effects.h"
+# include "constants.h"
 
 case_t CASES[] = {
     {(char *)"Depart", 0, TYPE_START, 0, 0, 0},
@@ -44,18 +41,16 @@ case_t CASES[] = {
     {(char *)"Chance", 0, TYPE_LUCKY, -1, 0, 0},
     {(char *)"Champs-Elysees", 7, TYPE_STREET, -1, 350, 350},
     {(char *)"Taxe de Luxe", 0, TYPE_TAX, -1, 200, 200},
-    {(char *)"La Paix", 7, TYPE_STREET, -1, 400, 400},
+    {(char *)"La Paix", 7, TYPE_STREET, -1, 400, 400}
 
 };
-
-void card_prison(int);
-void card_prize(int);
 
 chance_t CHANCE[] = {
    {(char *)"Prison", (char *)"Vous allez en prison.", 0, card_prison, 0},
    {(char *)"Cadeaux", (char *)"On vous offre un cadeau.", 100, card_prize, 0},
    {(char *)"Cadeaux", (char *)"On vous offre un cadeau.", 300, card_prize, 0},
-   {(char *)"Cadeaux", (char *)"On vous offre un cadeau.", 1000, card_prize, 0},
+   {(char *)"Cadeaux", (char *)"On vous offre un cadeau.", 1000, card_prize, 0}
+/*
    {(char *)"amende", 0},
    {(char *)"rejouer", 0},
    {(char *)"gare", 0},
@@ -66,6 +61,7 @@ chance_t CHANCE[] = {
    {(char *)"sortie de prison", 1},
    {(char *)"loyer gratuit", 1},
    {(char *)"prochain loyer double", 1}
- };
+*/
+};
 
 #endif /* _MONOPOLY_H_ */
