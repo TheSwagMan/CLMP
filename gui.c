@@ -231,3 +231,8 @@ void    display_board(board_t *board)
         printf("%d=%s ($%d)    ", i, board->players[i]->name, board->players[i]->money);
     putchar('\n');
 }
+
+void display_card(card_t *card)
+{
+    printf("%s %s", card->title, card->desc);
+}

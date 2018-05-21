@@ -29,16 +29,16 @@ typedef struct  board_s
     int         jackpot;
     int         current_player;
     int         game_running;
-    int         current_luck;
+    int         current_card;
 }               board_t;
 
-typedef struct chance_s
+typedef struct  card_s
 {
     char        *title;
     char        *desc;
     int         value;
     void        (*effect)(board_t *board, int owner, int value);
-}               chance_t;
+}               card_t;
 
 enum            CASE_TYPES
 {

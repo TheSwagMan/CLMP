@@ -61,12 +61,17 @@ void handle_street_station(board_t *board)
        */
 }
 
+void apply_card(board_t *board, int player_id, card_t *card)
+{
+   card->effect(board, player_id, card->value); 
+}
+
 void apply_case(board_t *board)
 {
     int player_number = board->current_player;
     int case_number = board->players[player_number]->position;
     player_t *player = board->players[player_number]; 
-
+    card_t *card;
     switch (board->cases[case_number].type)
     {
         case TYPE_STREET:
@@ -88,13 +93,31 @@ void apply_case(board_t *board)
             board->jackpot = 0;
             break;
         case TYPE_LUCKY:
-            
+            card = &CARDS[SHUFFLED_CARDS[board->current_card]];
+            display_card(card);
+            getchar();
+            apply_card(card);
             break;
         default:
             break;
     }
 }
 
+void    shuffle_cards(void)
+{
+    int i, t, j;
+    for (i = 0; i < (int)CARD_COUNT; i++)
+    {
+        SHUFFLED_CARDS[i] = i; 
+    }
+    for (i = 0; i < (int)CARD_COUNT; i++)
+    {
+        j = rand() % CARD_COUNT;
+        t = SHUFFLED_CARDS[j];
+        SHUFFLED_CARDS[j] = SHUFFLED_CARDS[i];
+        SHUFFLED_CARDS[i] = t;
+    }
+}
 
 int main(void)
 {
@@ -103,6 +126,8 @@ int main(void)
 
     // seeding random algorithm
     srand(time(NULL));
+    // shuffling cards
+    shuffle_cards();
     // creating board
     board_t  *board;
     if (!(board = (board_t *)malloc(sizeof(board_t))))
@@ -143,7 +168,7 @@ int main(void)
         de2 = dice();
         display_board(board);
         printf("Au tour de %s !", board->players[board->current_player]->name);
-        fgets(buffer, sizeof(buffer), stdin);
+        getchar();
         printf("%s lance les des : %d et %d (%d).\n", board->players[board->current_player]->name, de1, de2, de1 + de2);
         // player is not in prison
         if (board->players[board->current_player]->prison_for == 0)

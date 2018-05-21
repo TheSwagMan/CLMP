@@ -10,5 +10,6 @@
 
 void    display_board(board_t *board);
 char    *generate_empty_grid(int size);
+void    display_card(card_t *card);
 
 #endif /* _GUI_H_ */

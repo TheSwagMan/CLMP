@@ -45,7 +45,7 @@ case_t CASES[] = {
 
 };
 
-chance_t CHANCE[] = {
+card_t CARDS[] = {
    {(char *)"Prison", (char *)"Vous allez en prison.", 0, card_prison},
    {(char *)"Cadeaux", (char *)"On vous offre un cadeau.", 100, card_prize},
    {(char *)"Cadeaux", (char *)"On vous offre un cadeau.", 300, card_prize},
@@ -61,5 +61,9 @@ chance_t CHANCE[] = {
    {(char *)"Loyer gratuit",  (char *)"Votre prochain loyer sera gratuit." ,  0,  card_free},
    {(char *)"Prochain loyer double",  (char *)"Votre prochain loyer sera double.", 0, card_double}
 };
+
+#define CARD_COUNT  (sizeof(CARDS)/sizeof(card_t))
+
+int SHUFFLED_CARDS[CARD_COUNT];
 
 #endif /* _MONOPOLY_H_ */
