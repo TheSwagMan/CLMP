@@ -63,7 +63,7 @@ void handle_street_station(board_t *board)
 
 int apply_card(board_t *board, int player_id, card_t *card)
 {
-   return card->effect(board, player_id, card->value); 
+    return card->effect(board, player_id, card->value); 
 }
 
 int apply_case(board_t *board)
@@ -79,6 +79,9 @@ int apply_case(board_t *board)
             break;
         case TYPE_GOPRISON:
             player->position = 8;
+            player->prison_for = TIME_PRISON;
+            break;
+        case TYPE_PRISON:
             player->prison_for = TIME_PRISON;
             break;
         case TYPE_STATION:
@@ -136,9 +139,11 @@ int main(void)
     // setting up saces
     board->cases = CASES;
     // set number of players
-    printf("Combien de joueurs ? : ");
-    fgets(buffer, sizeof(buffer), stdin);
-    board->player_number = atoi(buffer);
+    do {
+        printf("Combien de joueurs ? : ");
+        fgets(buffer, sizeof(buffer), stdin);
+        board->player_number = atoi(buffer);
+    } while (board->player_number < 2);
     if (!(board->players = (player_t**)malloc(sizeof(player_t*) * board->player_number)))
         exit(-1);
     // creating players
@@ -185,6 +190,8 @@ int main(void)
                 board->players[board->current_player]->position = board->players[board->current_player]->position % CASE_COUNT;
                 board->players[board->current_player]->money += MONEY_TURN_REWARD;
             }
+            // apply case effect
+            replay += apply_case(board);
         }
         else
         {
@@ -196,17 +203,15 @@ int main(void)
             }
         }
         display_board(board);
-        // apply case effect
-        replay += apply_case(board);
         if (!replay)
         {
             // next player
-        board->current_player++;
-        // all player played -> new round
-        if (board->current_player >= board->player_number)
-        {
-            board->current_player = 0;
-        }
+            board->current_player++;
+            // all player played -> new round
+            if (board->current_player >= board->player_number)
+            {
+                board->current_player = 0;
+            }
         }
         replay = 0;
     }
