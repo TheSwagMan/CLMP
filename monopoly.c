@@ -5,7 +5,7 @@ void buy_case(board_t *board)
 {
     int player_number = board->current_player;
     int case_number = board->players[player_number]->position;
-    player_t *player = board->players[player_number]; 
+    player_t *player = board->players[player_number];
 
     // enough money ?
     if (player->money >= board->cases[case_number].initial_price)
@@ -23,7 +23,7 @@ void pay_rent(board_t *board)
 {
     int player_number = board->current_player;
     int case_number = board->players[player_number]->position;
-    player_t *player = board->players[player_number]; 
+    player_t *player = board->players[player_number];
 
     // can player pay ?
     if (player->money >= board->cases[case_number].price)
@@ -41,7 +41,7 @@ void handle_street_station(board_t *board)
 {
     int player_number = board->current_player;
     int case_number = board->players[player_number]->position;
-    player_t *player = board->players[player_number]; 
+    player_t *player = board->players[player_number];
 
     (void)player;
     // case free
@@ -50,7 +50,7 @@ void handle_street_station(board_t *board)
     else
         pay_rent(board);
     // TODO: FIX PRICE
-    /* 
+    /*
        int price=0;
        if (board->players[player_number]->money >= price && ask((char *)"Racheter ?"))
        {
@@ -63,14 +63,14 @@ void handle_street_station(board_t *board)
 
 int apply_card(board_t *board, int player_id, card_t *card)
 {
-    return card->effect(board, player_id, card->value); 
+    return card->effect(board, player_id, card->value);
 }
 
 int apply_case(board_t *board)
 {
     int player_number = board->current_player;
     int case_number = board->players[player_number]->position;
-    player_t *player = board->players[player_number]; 
+    player_t *player = board->players[player_number];
     card_t *card;
     switch (board->cases[case_number].type)
     {
@@ -112,7 +112,7 @@ void    shuffle_cards(void)
     int i, t, j;
     for (i = 0; i < (int)CARD_COUNT; i++)
     {
-        SHUFFLED_CARDS[i] = i; 
+        SHUFFLED_CARDS[i] = i;
     }
     for (i = 0; i < (int)CARD_COUNT; i++)
     {
@@ -171,18 +171,27 @@ int main(void)
     replay = 0;
     while (board->game_running)
     {
+
         de1= dice();
         de2 = dice();
         display_board(board);
         printf("Au tour de %s !", board->players[board->current_player]->name);
         getchar();
         printf("%s lance les des : %d et %d (%d).\n", board->players[board->current_player]->name, de1, de2, de1 + de2);
-        // player is not in prison
+        doubles_in_row  = 1;
+      // player is not in prison
         if (board->players[board->current_player]->prison_for == 0)
         {
             // if double -> replay
-            if (de1 == de2)
+            if (de1 == de2){
                 replay += 1;
+                doubles_in_row += 1;
+                if( doubles_in_row == 3 ){
+                  player_t *player = board->players[owner];
+                  player->position = 8;
+                  player->prison_for = TIME_PRISON;
+                }
+            }
             // move player and reward for turn
             board->players[board->current_player]->position += de1 + de2;
             if (board->players[board->current_player]->position >= CASE_COUNT)
@@ -217,4 +226,3 @@ int main(void)
     }
     return 0;
 }
-
