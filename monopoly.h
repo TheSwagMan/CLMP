@@ -50,16 +50,18 @@ card_t CARDS[] = {
    {(char *)"Cadeaux", (char *)"On vous offre un cadeau.", 100, card_prize},
    {(char *)"Cadeaux", (char *)"On vous offre un cadeau.", 300, card_prize},
    {(char *)"Cadeaux", (char *)"On vous offre un cadeau.", 1000, card_prize},
+   {(char *)"Amende", (char *)"Vous recevez une amende.", 100,  card_prize},
    {(char *)"Amende", (char *)"Vous recevez une amende.", 200,  card_prize},
+   {(char *)"Amende", (char *)"Vous recevez une amende.", 500,  card_prize},
    {(char *)"Rejouer", (char *)"Vous pouvez rejouez.", 0,  card_replay},
    {(char *)"Gare", (char *)"On vous dépose a la gare.",  0,  card_station},
    {(char *)"Rue&Gare", (char *)"On vous depose dans une rue.", 0,  card_street_station},
    {(char *)"Destruction", (char *)"Une rue ou gare va être reinitialise.",  0, card_destroy},
-   {(char *)"Impots", (char *)"Vous devez payer vos impots.",  0,  card_tax},
-   {(char *)"Parc gratuit", (char *)"On vous dépose au parc gratuit.", 0, card_parc},
-   {(char *)"Sortie de prison", (char *)"On vous donne un moyen de vous evadez de prison.",  0, card_escape},
-   {(char *)"Loyer gratuit",  (char *)"Votre prochain loyer sera gratuit." ,  0,  card_free},
-   {(char *)"Prochain loyer double",  (char *)"Votre prochain loyer sera double.", 0, card_double}
+//   {(char *)"Impots", (char *)"Vous devez payer vos impots.",  0,  card_tax},
+   {(char *)"Parc gratuit", (char *)"On vous depose au parc gratuit.", 0, card_parc},
+//   {(char *)"Sortie de prison", (char *)"On vous donne un moyen de vous evadez de prison.",  0, card_escape},
+//   {(char *)"Loyer gratuit",  (char *)"Votre prochain loyer sera gratuit." ,  0,  card_free},
+//   {(char *)"Prochain loyer double",  (char *)"Votre prochain loyer sera double.", 0, card_double}
 };
 
 #define CARD_COUNT  (sizeof(CARDS)/sizeof(card_t))
