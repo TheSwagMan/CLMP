@@ -50,18 +50,18 @@ chance_t CHANCE[] = {
    {(char *)"Cadeaux", (char *)"On vous offre un cadeau.", 100, card_prize, 0},
    {(char *)"Cadeaux", (char *)"On vous offre un cadeau.", 300, card_prize, 0},
    {(char *)"Cadeaux", (char *)"On vous offre un cadeau.", 1000, card_prize, 0}
-/*
-   {(char *)"amende", 0},
-   {(char *)"rejouer", 0},
-   {(char *)"gare", 0},
-   {(char *)"rue", 0},
-   {(char *)"destruction", 0},
-   {(char *)"impots", 0},
-   {(char *)"parc gratuit", 0},
-   {(char *)"sortie de prison", 1},
-   {(char *)"loyer gratuit", 1},
-   {(char *)"prochain loyer double", 1}
-*/
+   {(char *)"Amende", (char *)"Vous recevez une amende.", 200,  card_prize, 0},
+
+   {(char *)"Rejouer",  (char *)"Vous pouvez rejouez.", 0,  card_replay, 0},
+   {(char *)"Gare", (char *)"On vous dépose à la gare.",  0,  card_station, 0},
+   {(char *)"Rue&Gare",  (char *)"On vous dépose dans une rue.", 0,  card_street_station, 0},
+   {(char *)"Destruction",  (char *)"Une rue ou gare va être réinitialisé.",  0,  card_restart 0},
+   {(char *)"Impots", (char *)"Vous devez payer vos impôts.",  0,  card_tax, 0},
+   {(char *)"Parc gratuit", (char *)"On vous dépose au parc gratuit.", 0, card_park, 0},
+   {(char *)"Sortie de prison", (char *)"On vous donne un moyen de vous évadez de prison.",  0, card_escape, 1},
+   {(char *)"Loyer gratuit",  (char *)"Votre prochain loyer sera gratuit." ,  0,  card_free, 1},
+   {(char *)"Prochain loyer double",  (char *)"Votre prochain loyer sera doublé.", 0, card_double, 1}
+
 };
 
 #endif /* _MONOPOLY_H_ */
