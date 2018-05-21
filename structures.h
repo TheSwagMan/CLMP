@@ -29,6 +29,7 @@ typedef struct  board_s
     int         jackpot;
     int         current_player;
     int         game_running;
+    int         current_luck;
 }               board_t;
 
 typedef struct chance_s
@@ -37,7 +38,6 @@ typedef struct chance_s
     char        *desc;
     int         value;
     void        (*effect)(board_t *board, int owner, int value);
-    int         keep;
 }               chance_t;
 
 enum            CASE_TYPES

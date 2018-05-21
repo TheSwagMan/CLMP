@@ -6,4 +6,15 @@
 # define MONEY_TAX          200
 # define TIME_PRISON        3
 
+# define X_CHAR     'o'
+# define V_CHAR     '|'
+# define H_CHAR     '-'
+# define N_CHAR     ' '
+
+# define V_SIZE     4
+# define H_SIZE     22
+# define GRID_SIZE  9
+# define CASE_COUNT (4 * (GRID_SIZE - 1))
+
+
 #endif /* _CONSTANTS_H_ */

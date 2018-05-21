@@ -87,6 +87,9 @@ void apply_case(board_t *board)
             player->money += board->jackpot; //gagne l'argent stocké dans la CAGNOTTE
             board->jackpot = 0;
             break;
+        case TYPE_LUCKY:
+            
+            break;
         default:
             break;
     }
