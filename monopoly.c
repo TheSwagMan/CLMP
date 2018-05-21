@@ -96,7 +96,7 @@ void apply_case(board_t *board)
             card = &CARDS[SHUFFLED_CARDS[board->current_card]];
             display_card(card);
             getchar();
-            apply_card(card);
+            apply_card(board, player_number, card);
             break;
         default:
             break;
