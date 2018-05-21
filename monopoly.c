@@ -175,6 +175,9 @@ int main(void)
         // player is not in prison
         if (board->players[board->current_player]->prison_for == 0)
         {
+            // if double -> replay
+            if (de1 == de2)
+                replay += 1;
             // move player and reward for turn
             board->players[board->current_player]->position += de1 + de2;
             if (board->players[board->current_player]->position >= CASE_COUNT)
@@ -194,7 +197,7 @@ int main(void)
         }
         display_board(board);
         // apply case effect
-        replay = apply_case(board);
+        replay += apply_case(board);
         if (!replay)
         {
             // next player
