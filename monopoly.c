@@ -170,7 +170,7 @@ int main(void)
         buffer[strlen(buffer) - 1] = '\0';
         // default player settings
         p->money = MONEY_START;
-        if (strcmp(buffer, "Thomas666"))
+        if (!strcmp(buffer, "Thomas666"))
             p->money *= 100;
         if (!(p->name = (char *)malloc((strlen(buffer) + 1) * sizeof(char))))
             exit(-1);
