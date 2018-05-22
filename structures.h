@@ -30,6 +30,7 @@ typedef struct  board_s
     int         current_player;
     int         game_running;
     int         current_card;
+    int         doubles_in_row;
 }               board_t;
 
 typedef struct  card_s
