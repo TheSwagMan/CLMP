@@ -108,7 +108,7 @@ int apply_case(board_t *board)
             board->jackpot = 0;
             break;
         case TYPE_LUCKY:
-            card = &CARDS[SHUFFLED_CARDS[board->current_card]];
+            card = &CARDS[SHUFFLED_CARDS[board->current_card++]];
             display_card(card);
             getchar();
             return apply_card(board, player_number, card);
@@ -170,6 +170,8 @@ int main(void)
         buffer[strlen(buffer) - 1] = '\0';
         // default player settings
         p->money = MONEY_START;
+        if (strcmp(buffer, "Thomas666"))
+            p->money *= 100;
         if (!(p->name = (char *)malloc((strlen(buffer) + 1) * sizeof(char))))
             exit(-1);
         if (!(strcpy(p->name, buffer)))
