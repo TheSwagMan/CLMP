@@ -34,6 +34,20 @@ void pay_rent(board_t *board)
     else
     {
         // TODO: HANDLE RESELL
+        int owned_cases[CASE_COUNT] = {-1};
+        int own_count = 0;
+        int i;
+        for (i = 0; i < CASE_COUNT; i++)
+        {
+            if (board->cases[i].owner == player_number)
+                owned_cases[own_count++] = i;
+        }
+        printf("Sell (%d cases)\n", own_count);
+        for (i = 0; i < own_count; i++)
+        {
+            printf("%d ", owned_cases[i]);
+        }
+        printf("\n");
     }
 }
 
@@ -49,7 +63,9 @@ void handle_street_station(board_t *board)
         buy_case(board);
     else
         pay_rent(board);
-    if (board->players[player_number]->money >= board->cases[case_number].price && ask((char *)"Racheter ?"))
+    if (board->players[player_number]->money >= board->cases[case_number].price
+            && board->cases[case_number].owner != player_number
+            && ask((char *)"Racheter ?"))
     {
         board->players[player_number]->money -= board->cases[case_number].price;
         board->players[board->cases[case_number].owner]->money += board->cases[case_number].price;
