@@ -49,16 +49,12 @@ void handle_street_station(board_t *board)
         buy_case(board);
     else
         pay_rent(board);
-    // TODO: FIX PRICE
-    /*
-       int price=0;
-       if (board->players[player_number]->money >= price && ask((char *)"Racheter ?"))
-       {
-       board->players[player_number]->money -= price;
-       board->players[board->cases[case_number].owner]->money += price;
-       board->cases->owner = player_number;
-       }
-       */
+    if (board->players[player_number]->money >= board->cases[case_number].price && ask((char *)"Racheter ?"))
+    {
+        board->players[player_number]->money -= board->cases[case_number].price;
+        board->players[board->cases[case_number].owner]->money += board->cases[case_number].price;
+        board->cases->owner = player_number;
+    }
 }
 
 int apply_card(board_t *board, int player_id, card_t *card)
