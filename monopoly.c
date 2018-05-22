@@ -171,33 +171,34 @@ int main(void)
     replay = 0;
     while (board->game_running)
     {
-
+        player_t *player = board->players[board->current_player];
         de1= dice();
         de2 = dice();
         display_board(board);
-        printf("Au tour de %s !", board->players[board->current_player]->name);
+        printf("Au tour de %s !", player->name);
         getchar();
-        printf("%s lance les des : %d et %d (%d).\n", board->players[board->current_player]->name, de1, de2, de1 + de2);
-        doubles_in_row  = 1;
-      // player is not in prison
-        if (board->players[board->current_player]->prison_for == 0)
+        printf("%s lance les des : %d et %d (%d).\n", player->name, de1, de2, de1 + de2);
+        board->doubles_in_row  = 0;
+        // player is not in prison
+        if (player->prison_for == 0)
         {
             // if double -> replay
-            if (de1 == de2){
-                replay += 1;
-                doubles_in_row += 1;
-                if( doubles_in_row == 3 ){
-                  player_t *player = board->players[owner];
-                  player->position = 8;
-                  player->prison_for = TIME_PRISON;
+            if (de1 == de2)
+            {
+                replay++;
+                board->doubles_in_row++;
+                if (board->doubles_in_row == DOUBLE_PRISON)
+                {
+                    player->position = 8;
+                    player->prison_for = TIME_PRISON;
                 }
             }
             // move player and reward for turn
-            board->players[board->current_player]->position += de1 + de2;
-            if (board->players[board->current_player]->position >= CASE_COUNT)
+            player->position += de1 + de2;
+            if (player->position >= CASE_COUNT)
             {
-                board->players[board->current_player]->position = board->players[board->current_player]->position % CASE_COUNT;
-                board->players[board->current_player]->money += MONEY_TURN_REWARD;
+                player->position = player->position % CASE_COUNT;
+                player->money += MONEY_TURN_REWARD;
             }
             // apply case effect
             replay += apply_case(board);
@@ -216,6 +217,8 @@ int main(void)
         {
             // next player
             board->current_player++;
+            // reset double count
+            board->doubles_in_row = 0;
             // all player played -> new round
             if (board->current_player >= board->player_number)
             {
