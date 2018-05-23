@@ -7,11 +7,11 @@ void buy_case(board_t *board)
     player_t *player = board->players[player_number];
 
     // enough money ?
-    if (player->money >= board->cases[case_number].initial_price)
+    if (player->money >= board->cases[case_number].price)
     {
         if (ask((char *)"Acheter ?"))
         {
-            player->money -= board->cases[case_number].initial_price;
+            player->money -= board->cases[case_number].price;
             board->cases[case_number].owner = player_number;
         }
     }
@@ -20,7 +20,6 @@ void buy_case(board_t *board)
 int resell_case(board_t *board, int money)
 {
     int player_number = board->current_player;
-    // TODO: HANDLE RESELL
     int owned_cases[CASE_COUNT] = {-1};
     int own_count = 0;
     int i, k;
@@ -62,16 +61,22 @@ void pay_rent(board_t *board)
     int case_number = board->players[player_number]->position;
     player_t *player = board->players[player_number];
 
+    int rent_price = 0.3 * board->cases[case_number].price;
+
     // can player pay ?
-    if (player->money >= board->cases[case_number].price)
+    if (player->money >= rent_price)
     {
-        player->money -= board->cases[case_number].price;
-        board->players[board->cases[case_number].owner]->money += board->cases[case_number].price;
+        player->money -= rent_price;
+        board->players[board->cases[case_number].owner]->money += rent_price;
     }
     else
     {
-        if (!resell_case(board, player->money - board->cases[case_number].price))
+        if (!resell_case(board, player->money - rent_price))
             board->players[player_number]->out = 1;
+        else
+        {
+            player->money -= rent_price;
+        }
     }
 }
 
@@ -79,30 +84,23 @@ void handle_street_station(board_t *board)
 {
     int player_number = board->current_player;
     int case_number = board->players[player_number]->position;
-    player_t *player = board->players[player_number];
 
-    (void)player;
     // case free
     if (board->cases[case_number].owner == -1)
     {
         buy_case(board);
-        board->cases[case_number].price *= 0.4;
+        board->cases[case_number].price *= 1.5;
     }
     else
         pay_rent(board);
-    if (board->players[player_number]->money >= board->cases[case_number].initial_price*1.5
+    if (board->players[player_number]->money >= board->cases[case_number].price
             && board->cases[case_number].owner != player_number
             && ask((char *)"Racheter ?"))
     {
-        board->players[player_number]->money -= board->cases[case_number].initial_price*1.5;
-        board->players[board->cases[case_number].owner]->money += board->cases[case_number].initial_price*1.5;
+        board->players[player_number]->money -= board->cases[case_number].price;
+        board->players[board->cases[case_number].owner]->money += board->cases[case_number].price;
         board->cases->owner = player_number;
     }
-}
-
-int apply_card(board_t *board, int player_id, card_t *card)
-{
-    return card->effect(board, player_id, card->value);
 }
 
 int apply_case(board_t *board)
@@ -137,7 +135,7 @@ int apply_case(board_t *board)
             card = &CARDS[SHUFFLED_CARDS[board->current_card++]];
             display_card(card);
             getchar();
-            return apply_card(board, player_number, card);
+            return (card->effect(board, player_number, card->value));
             break;
         default:
             break;
@@ -213,7 +211,7 @@ int main(void)
     srand(time(NULL));
     // shuffling cards
     shuffle_cards();
-    
+
     board = initialize_board();
     //debut de partie
     board->current_player = 0;
@@ -274,14 +272,14 @@ int main(void)
             replay += apply_case(board);
         }
         else
+        {
+            board->players[board->current_player]->prison_for--;
+            if (de1 == de2)
             {
-                board->players[board->current_player]->prison_for--;
-                if (de1 == de2)
-                {
-                    printf("%s sort de prison !\n", board->players[board->current_player]->name);
-                    board->players[board->current_player]->prison_for = 0;
-                }
+                printf("%s sort de prison !\n", board->players[board->current_player]->name);
+                board->players[board->current_player]->prison_for = 0;
             }
+        }
         display_board(board);
         if (!replay)
         {
