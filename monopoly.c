@@ -1,6 +1,5 @@
 #include "monopoly.h"
 
-
 void buy_case(board_t *board)
 {
     int player_number = board->current_player;
@@ -162,17 +161,12 @@ void    shuffle_cards(void)
     }
 }
 
-int main(void)
+board_t *initialize_board(void)
 {
-    char buffer[100];
-    int i, de1, de2, replay;
-
-    // seeding random algorithm
-    srand(time(NULL));
-    // shuffling cards
-    shuffle_cards();
-    // creating board
     board_t  *board;
+    char buffer[100];
+    int i;
+    // creating board
     if (!(board = (board_t *)malloc(sizeof(board_t))))
         exit(-1);
     // setting up saces
@@ -207,6 +201,20 @@ int main(void)
         p->out = 1;
         board->players[i] = p;
     }
+    return (board);
+}
+
+int main(void)
+{
+    board_t  *board;
+    int de1, de2, replay;
+
+    // seeding random algorithm
+    srand(time(NULL));
+    // shuffling cards
+    shuffle_cards();
+    
+    board = initialize_board();
     //debut de partie
     board->current_player = 0;
     board->game_running = 1;
