@@ -1,19 +1,24 @@
 int is_won(board_t *board){
-      int c1 = 0;
+      int playing = 1;
+      // initialisation  des compteur
+      int c1 = 0; 
       int c2 = 0;
+      // tableau avec l'emplacement des gares
       int t[] = {4, 11, 21, 27};
+      // pour savoir cb de players son out
       for(int i=0;i<board->player_number;i++)
       {
           if (board->players[i]->out == 0)
           {
              c1=c1+1;
           }
-
-       if(c == board->player_number-1)
+       // si il reste un joueur ila gagné
+       if(c1 == board->player_number-1)
           {
             return playing = 0;
           }
-       for (int i =0;i<4;i++)
+        // pour savoir si le joueur actuel possède 4 gares
+       for (int i = 0; i < 4; i++)
        {
             if(board->case[t[i]].owner == board->players[current_player])
               {
@@ -24,7 +29,7 @@ int is_won(board_t *board){
       {
         return playing = 0;
       }
-      return (playing = 1);
+      return playing ;
 
 }
 }
