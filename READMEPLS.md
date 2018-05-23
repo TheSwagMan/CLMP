@@ -8,13 +8,13 @@ Chaque joueur commence avec 1000 dollars. Pour gagner, le joueur doit accomplir 
 ### Types de cases
 
 Il y a différents types de cases:
-..* la case DEPART
-..* les cases RUES
-..* les cases GARES
-..* les cases CHANCES
-..* les cases PRISON / ALLER EN PRISON
-..* les cases TAXES
-..* la case PARC GRATUIT
+1.la case DEPART
+2.les cases RUES
+3.les cases GARES
+4.les cases CHANCES
+5.les cases PRISON / ALLER EN PRISON
+6.les cases TAXES 
+7.la case PARC GRATUIT
 
 ### 1.Case DEPART
 
