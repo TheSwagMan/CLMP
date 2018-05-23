@@ -1,5 +1,23 @@
 #include "monopoly.h"
 
+
+int is_won(board_t *board){
+    int player_alive = 0;
+    // counting alive players
+    for (int i = 0; i < board->player_number; i++)
+        if (board->players[i]->out == 0)
+            player_alive++;
+    if (player_alive == 1)
+        return (1);
+    int a = board->cases[4].owner;
+    if (a == board->cases[11].owner
+            && a == board->cases[21].owner
+            && a == board->cases[27].owner
+            && a >= 0)
+        return (1);
+    return (0);
+}
+
 void buy_case(board_t *board)
 {
     int player_number = board->current_player;
@@ -283,6 +301,8 @@ int main(void)
             }
         }
         replay = 0;
+        if (is_won(board))
+            board->game_running = 0;
     }
     return 0;
 }
