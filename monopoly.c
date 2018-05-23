@@ -263,6 +263,6 @@ int main(void)
             }
             replay = 0;
         }
-        return (0);
     }
+    return (0);
 }
