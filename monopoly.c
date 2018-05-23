@@ -157,7 +157,7 @@ int apply_case(board_t *board)
             board->jackpot += MONEY_TAX;
             break;
         case TYPE_PARK:
-            player->money += board->jackpot; //gagne l'argent stocké dans la CAGNOTTE
+            player->money += board->jackpot;
             board->jackpot = 0;
             break;
         case TYPE_LUCKY:
@@ -220,12 +220,14 @@ board_t *initialize_board(void)
         p->money = MONEY_START;
         if (!strcmp(buffer, "Thomas666"))
             p->money *= 100;
+        if (!strcmp(buffer, "Hugo"))
+            p->money = 1;
         if (!(p->name = (char *)malloc((strlen(buffer) + 1) * sizeof(char))))
             exit(-1);
         if (!(strcpy(p->name, buffer)))
             exit(-3);
         p->position = 0;
-        p->out = 1;
+        p->out = 0;
         board->players[i] = p;
     }
     return (board);
@@ -250,7 +252,7 @@ int main(void)
 
     while (board->game_running)
     {
-        if (board->players[board->current_player]->out != 0)
+        if (!board->players[board->current_player]->out)
         {
             player_t *player = board->players[board->current_player];
             de1= dice();
@@ -284,7 +286,7 @@ int main(void)
                 // apply case effect
                 replay += apply_case(board);
                 if (player->money <= 0)
-                    board->players[board->current_player]->out = 0;
+                    board->players[board->current_player]->out = 1;
 
             }
         }
@@ -314,5 +316,5 @@ int main(void)
         if (is_won(board))
             board->game_running = 0;
     }
-    return 0;
+    return (0);
 }

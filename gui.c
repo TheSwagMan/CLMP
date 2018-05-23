@@ -228,7 +228,14 @@ void    display_board(board_t *board)
 
     print_board(board_info_convert(board));
     for (i = 0; i < board->player_number; i++)
-        printf("%d=%s ($%d)    ", i, board->players[i]->name, board->players[i]->money);
+    {
+        if (board->players[i]->out)
+            putchar('[');
+        printf("%d=%s ($%d)", i, board->players[i]->name, board->players[i]->money);
+        if (board->players[i]->out == 1)
+            putchar(']');
+        printf("    ");
+    }
     putchar('\n');
 }
 
