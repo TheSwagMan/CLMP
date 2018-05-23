@@ -37,9 +37,10 @@ int is_won(board_t *board){
     // counting alive players
     for (i = 0; i < board->player_number; i++)
         if (board->players[i]->out == 0)
+        {
             player_alive++;
-        else
             winner = i;
+        }
     if (player_alive == 1)
     {
         printf("%s gagne en etant le seul restant !\n", board->players[winner]->name);
