@@ -1,4 +1,4 @@
-#Règles du jeu
+# Règles du jeu
 
 Chaque joueur commence avec 1000 dollars. Pour gagner, le joueur doit accomplir une des actions suivantes:
 * posséder 4 gares,
