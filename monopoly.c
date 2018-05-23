@@ -25,28 +25,17 @@ void resell_case(board_t *board)
     int owned_cases[CASE_COUNT] = {-1};
     int own_count = 0;
     int i;
-    char buffer[10];
-
     for (i = 0; i < CASE_COUNT; i++)
     {
         if (board->cases[i].owner == player_number)
             owned_cases[own_count++] = i;
     }
-    if (own_count > 0)
+    printf("Sell (%d cases)\n", own_count);
+    for (i = 0; i < own_count; i++)
     {
-        printf("Sell (%d cases)\n", own_count);
-        for (i = 0; i < own_count; i++)
-        {
-            printf("%i: %s", i, board->cases[owned_cases[i]].name);
-            if (i != own_count - 1)
-                printf(", ");
-        }
-        printf("\n");
-        fgets(buffer, sizeof(buffer), stdin);
-        board->cases[atoi(buffer)].owner = -1;
+        printf("%d ", owned_cases[i]);
     }
-    else
-        board->players[player_number]->out = 1;
+    printf("\n");
 }
 
 void pay_rent(board_t *board)
@@ -76,15 +65,18 @@ void handle_street_station(board_t *board)
     (void)player;
     // case free
     if (board->cases[case_number].owner == -1)
+    {
         buy_case(board);
+        board->cases[case_number].price *= 0.4;
+    }
     else
         pay_rent(board);
-    if (board->players[player_number]->money >= board->cases[case_number].price
+    if (board->players[player_number]->money >= board->cases[case_number].initial_price*1.5
             && board->cases[case_number].owner != player_number
             && ask((char *)"Racheter ?"))
     {
-        board->players[player_number]->money -= board->cases[case_number].price;
-        board->players[board->cases[case_number].owner]->money += board->cases[case_number].price;
+        board->players[player_number]->money -= board->cases[case_number].initial_price*1.5;
+        board->players[board->cases[case_number].owner]->money += board->cases[case_number].initial_price*1.5;
         board->cases->owner = player_number;
     }
 }
@@ -192,7 +184,7 @@ int main(void)
         if (!(strcpy(p->name, buffer)))
             exit(-3);
         p->position = 0;
-        p->out = 0;
+        p->out = 1;
         board->players[i] = p;
     }
     //debut de partie
@@ -203,7 +195,7 @@ int main(void)
 
     while (board->game_running)
     {
-        if (!board->players[board->current_player]->out)
+        if (board->players[board->current_player]->out != 0)
         {
             player_t *player = board->players[board->current_player];
             de1= dice();
@@ -211,6 +203,7 @@ int main(void)
             printf("Au tour de %s !", player->name);
             getchar();
             printf("%s lance les des : %d et %d (%d).\n", player->name, de1, de2, de1 + de2);
+            getchar();
             board->doubles_in_row  = 0;
             // player is not in prison
             if (player->prison_for == 0)
@@ -236,10 +229,22 @@ int main(void)
                 display_board(board);
                 // apply case effect
                 replay += apply_case(board);
-                if (player->money < 0)
+                if (player->money <= 0)
                     board->players[board->current_player]->out = 0;
+
             }
-            else
+            // move player and reward for turn
+            player->position += de1 + de2;
+            if (player->position >= CASE_COUNT)
+            {
+                player->position = player->position % CASE_COUNT;
+                player->money += MONEY_TURN_REWARD;
+            }
+            display_board(board);
+            // apply case effect
+            replay += apply_case(board);
+        }
+        else
             {
                 board->players[board->current_player]->prison_for--;
                 if (de1 == de2)
@@ -248,21 +253,20 @@ int main(void)
                     board->players[board->current_player]->prison_for = 0;
                 }
             }
-            display_board(board);
-            if (!replay)
+        display_board(board);
+        if (!replay)
+        {
+            // next player
+            board->current_player++;
+            // reset double count
+            board->doubles_in_row = 0;
+            // all player played -> new round
+            if (board->current_player >= board->player_number)
             {
-                // next player
-                board->current_player++;
-                // reset double count
-                board->doubles_in_row = 0;
-                // all player played -> new round
-                if (board->current_player >= board->player_number)
-                {
-                    board->current_player = 0;
-                }
+                board->current_player = 0;
             }
-            replay = 0;
         }
+        replay = 0;
     }
-    return (0);
+    return 0;
 }
