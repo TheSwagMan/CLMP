@@ -93,6 +93,7 @@ void handle_street_station(board_t *board)
     }
     else
         pay_rent(board);
+    display_board(board);
     if (board->players[player_number]->money >= board->cases[case_number].price
             && board->cases[case_number].owner != player_number
             && ask((char *)"Racheter ?"))
@@ -229,7 +230,6 @@ int main(void)
             printf("Au tour de %s !", player->name);
             getchar();
             printf("%s lance les des : %d et %d (%d).\n", player->name, de1, de2, de1 + de2);
-            getchar();
             board->doubles_in_row  = 0;
             // player is not in prison
             if (player->prison_for == 0)
@@ -253,23 +253,12 @@ int main(void)
                     player->money += MONEY_TURN_REWARD;
                 }
                 display_board(board);
-                getchar();
                 // apply case effect
                 replay += apply_case(board);
                 if (player->money <= 0)
                     board->players[board->current_player]->out = 0;
 
             }
-            // move player and reward for turn
-            player->position += de1 + de2;
-            if (player->position >= CASE_COUNT)
-            {
-                player->position = player->position % CASE_COUNT;
-                player->money += MONEY_TURN_REWARD;
-            }
-            display_board(board);
-            // apply case effect
-            replay += apply_case(board);
         }
         else
         {
