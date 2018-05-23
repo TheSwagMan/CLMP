@@ -6,15 +6,35 @@ int own_in_category(board_t *board, int owner, int cat)
     int i, n = 0;
 
     for (i = 0; i < CASE_COUNT; i++)
-        if (board->cases[i].category == cat && board->cases[i].owner == owner)
+        if (board->cases[i].type == TYPE_STREET && board->cases[i].category == cat && board->cases[i].owner == owner)
+            n++;
+    return (n);
+}
+
+int count_in_category(board_t *board, int cat)
+{
+    int i, n = 0;
+
+    for (i = 0; i < CASE_COUNT; i++)
+        if (board->cases[i].type == TYPE_STREET && board->cases[i].category == cat)
+            n++;
+    return (n);
+}
+
+int monopoles(board_t *board, int player)
+{
+    int i, n = 0;
+    for (i = 0; i < 8; i++)
+        if (own_in_category(board, i, player) == count_in_category(board, i))
             n++;
     return (n);
 }
 
 int is_won(board_t *board){
+    int i;
     int player_alive = 0;
     // counting alive players
-    for (int i = 0; i < board->player_number; i++)
+    for (i = 0; i < board->player_number; i++)
         if (board->players[i]->out == 0)
             player_alive++;
     if (player_alive == 1)
@@ -25,6 +45,9 @@ int is_won(board_t *board){
             && a == board->cases[27].owner
             && a >= 0)
         return (1);
+    for (i = 0; i < board->player_number; i++)
+        if (monopoles(board, i) >= 2)
+            return (1);
     return (0);
 }
 
