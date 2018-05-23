@@ -238,7 +238,6 @@ int main(void)
                 player->money += MONEY_TURN_REWARD;
             }
             display_board(board);
-            resell_case(board);
             // apply case effect
             replay += apply_case(board);
         }
