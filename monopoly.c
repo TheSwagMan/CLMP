@@ -18,6 +18,26 @@ void buy_case(board_t *board)
     }
 }
 
+void resell_case(board_t *board)
+{
+    int player_number = board->current_player;
+    // TODO: HANDLE RESELL
+    int owned_cases[CASE_COUNT] = {-1};
+    int own_count = 0;
+    int i;
+    for (i = 0; i < CASE_COUNT; i++)
+    {
+        if (board->cases[i].owner == player_number)
+            owned_cases[own_count++] = i;
+    }
+    printf("Sell (%d cases)\n", own_count);
+    for (i = 0; i < own_count; i++)
+    {
+        printf("%d ", owned_cases[i]);
+    }
+    printf("\n");
+}
+
 void pay_rent(board_t *board)
 {
     int player_number = board->current_player;
@@ -32,21 +52,7 @@ void pay_rent(board_t *board)
     }
     else
     {
-        // TODO: HANDLE RESELL
-        int owned_cases[CASE_COUNT] = {-1};
-        int own_count = 0;
-        int i;
-        for (i = 0; i < CASE_COUNT; i++)
-        {
-            if (board->cases[i].owner == player_number)
-                owned_cases[own_count++] = i;
-        }
-        printf("Sell (%d cases)\n", own_count);
-        for (i = 0; i < own_count; i++)
-        {
-            printf("%d ", owned_cases[i]);
-        }
-        printf("\n");
+        resell_case(board);
     }
 }
 
@@ -93,7 +99,6 @@ int apply_case(board_t *board)
             player->prison_for = TIME_PRISON;
             break;
         case TYPE_PRISON:
-            player->prison_for = TIME_PRISON;
             break;
         case TYPE_STATION:
             handle_street_station(board);
@@ -215,6 +220,7 @@ int main(void)
                 player->money += MONEY_TURN_REWARD;
             }
             display_board(board);
+            resell_case(board);
             // apply case effect
             replay += apply_case(board);
         }
