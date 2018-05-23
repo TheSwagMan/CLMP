@@ -63,9 +63,9 @@ int card_tax(board_t *board, int owner, int value)
 {
     (void)value;
     player_t *player = board->players[owner];
-    player->position = 3;
+    player->money -= value;
     return (0);
-}
+
 
 int card_parc(board_t *board, int owner, int value)
 {
@@ -82,5 +82,3 @@ int card_escape(board_t *board, int owner, int value)
     player->prison_for = 0;
     return (0);
 }
-
-
