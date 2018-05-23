@@ -1,6 +1,16 @@
 #include "monopoly.h"
 
 
+int own_in_category(board_t *board, int owner, int cat)
+{
+    int i, n = 0;
+
+    for (i = 0; i < CASE_COUNT; i++)
+        if (board->cases[i].category == cat && board->cases[i].owner == owner)
+            n++;
+    return (n);
+}
+
 int is_won(board_t *board){
     int player_alive = 0;
     // counting alive players
@@ -79,7 +89,7 @@ void pay_rent(board_t *board)
     int case_number = board->players[player_number]->position;
     player_t *player = board->players[player_number];
 
-    int rent_price = 0.3 * board->cases[case_number].price;
+    int rent_price = 0.3 * board->cases[case_number].price * own_in_category(board, board->cases[case_number].owner, board->cases[case_number].category);
 
     // can player pay ?
     if (player->money >= rent_price)
