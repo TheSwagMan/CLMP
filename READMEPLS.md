@@ -8,13 +8,13 @@ Chaque joueur commence avec 1000 dollars. Pour gagner, le joueur doit accomplir 
 ### Types de cases
 
 Il y a différents types de cases:
-1.la case DEPART
-2.les cases RUES
-3.les cases GARES
-4.les cases CHANCES
-5.les cases PRISON / ALLER EN PRISON
-6.les cases TAXES 
-7.la case PARC GRATUIT
+1. la case DEPART
+2. les cases RUES
+3. les cases GARES
+4. les cases CHANCES
+5. les cases PRISON / ALLER EN PRISON
+6. les cases TAXES 
+7. la case PARC GRATUIT
 
 ### 1.Case DEPART
 
@@ -22,10 +22,10 @@ La case DEPART est une carte qui ne peut être achetée. Lorsqu'on passe par cet
 
 ### 2.Cases RUES
 
-1.Les cases RUES sont des cases neutres qui peuvent être achetées par le joueur lorsqu'il arrive sur la case. Elles possèdent des prix variés, augmentant au fur et à mesure qu'on avance sur le plateau. 
-2.Après l'achat, les autres joueurs arrivant sur une case RUE déjà achetée doivent payer un loyer, correspondant à 30% du prix d'achat de la case. 
-3.La case RUE peut être rachetée par d'autres joueurs s'ils en possèdent les moyens,à un prix plus élevé que celui de l'achat initial, ou bien être revendue par son possesseur.
-4.Lorsqu'un joueur possède 2 rues de la même catégorie, un monopole est bâti. Ce dernier permet de doubler les loyers des 2 rues de la catégorie.
+1. Les cases RUES sont des cases neutres qui peuvent être achetées par le joueur lorsqu'il arrive sur la case. Elles possèdent des prix variés, augmentant au fur et à mesure qu'on avance sur le plateau. 
+2. Après l'achat, les autres joueurs arrivant sur une case RUE déjà achetée doivent payer un loyer, correspondant à 30% du prix d'achat de la case. 
+3. La case RUE peut être rachetée par d'autres joueurs s'ils en possèdent les moyens,à un prix plus élevé que celui de l'achat initial, ou bien être revendue par son possesseur.
+4. Lorsqu'un joueur possède 2 rues de la même catégorie, un monopole est bâti. Ce dernier permet de doubler les loyers des 2 rues de la catégorie.
 
 ### 3.Cases GARES
 
