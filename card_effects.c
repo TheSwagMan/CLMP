@@ -65,7 +65,7 @@ int card_tax(board_t *board, int owner, int value)
     player_t *player = board->players[owner];
     player->money -= value;
     return (0);
-
+}
 
 int card_parc(board_t *board, int owner, int value)
 {
