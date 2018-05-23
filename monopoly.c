@@ -287,16 +287,15 @@ int main(void)
                 replay += apply_case(board);
                 if (player->money <= 0)
                     board->players[board->current_player]->out = 1;
-
             }
-        }
-        else
-        {
-            board->players[board->current_player]->prison_for--;
-            if (de1 == de2)
+            else
             {
-                printf("%s sort de prison !\n", board->players[board->current_player]->name);
-                board->players[board->current_player]->prison_for = 0;
+                board->players[board->current_player]->prison_for--;
+                if (de1 == de2)
+                {
+                    printf("%s sort de prison !\n", board->players[board->current_player]->name);
+                    board->players[board->current_player]->prison_for = 0;
+                }
             }
         }
         display_board(board);
