@@ -124,6 +124,7 @@ void handle_street_station(board_t *board)
     display_board(board);
     if (board->players[player_number]->money >= board->cases[case_number].price
             && board->cases[case_number].owner != player_number
+            && board->cases[case_number].owner >= 0
             && ask((char *)"Racheter ?"))
     {
         board->players[player_number]->money -= board->cases[case_number].price;
