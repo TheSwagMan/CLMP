@@ -18,35 +18,43 @@ void buy_case(board_t *board)
     }
 }
 
-void resell_case(board_t *board)
+int resell_case(board_t *board, int money)
 {
     int player_number = board->current_player;
     // TODO: HANDLE RESELL
     int owned_cases[CASE_COUNT] = {-1};
     int own_count = 0;
-    int i;
+    int i, k;
     char buffer[10];
+    int money_got = 0;
 
-    for (i = 0; i < CASE_COUNT; i++)
+    while (money_got < money)
     {
-        if (board->cases[i].owner == player_number)
-            owned_cases[own_count++] = i;
-    }
-    if (own_count > 0)
-    {
-        printf("Sell (%d cases)\n", own_count);
-        for (i = 0; i < own_count; i++)
+        for (i = 0; i < CASE_COUNT; i++)
         {
-            printf("%i: %s", i, board->cases[owned_cases[i]].name);
-            if (i != own_count - 1)
-                printf(", ");
+            if (board->cases[i].owner == player_number)
+                owned_cases[own_count++] = i;
         }
-        printf("\n");
-        fgets(buffer, sizeof(buffer), stdin);
-        board->cases[atoi(buffer)].owner = -1;
+        if (own_count > 0)
+        {
+            printf("Sell (%d cases)\n", own_count);
+            for (i = 0; i < own_count; i++)
+            {
+                printf("%i: %s", i, board->cases[owned_cases[i]].name);
+                if (i != own_count - 1)
+                    printf(", ");
+            }
+            printf("\n");
+            fgets(buffer, sizeof(buffer), stdin);
+            k = atoi(buffer);
+            board->cases[k].owner = -1;
+            board->players[player_number]->money += board->cases[k].price;
+            money_got += board->cases[k].price;
+        }
+        else
+            return (0);
     }
-    else
-        board->players[player_number]->out = 1;
+    return (1);
 }
 
 void pay_rent(board_t *board)
@@ -63,7 +71,8 @@ void pay_rent(board_t *board)
     }
     else
     {
-        resell_case(board);
+        if (!resell_case(board, player->money - board->cases[case_number].price))
+            board->players[player_number]->out = 1;
     }
 }
 
@@ -234,6 +243,7 @@ int main(void)
                     player->money += MONEY_TURN_REWARD;
                 }
                 display_board(board);
+                getchar();
                 // apply case effect
                 replay += apply_case(board);
                 if (player->money < 0)
@@ -248,7 +258,7 @@ int main(void)
                     board->players[board->current_player]->prison_for = 0;
                 }
             }
-            display_board(board);
+                display_board(board);
             if (!replay)
             {
                 // next player
