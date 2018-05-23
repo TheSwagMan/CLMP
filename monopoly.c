@@ -181,6 +181,7 @@ int main(void)
         if (!(strcpy(p->name, buffer)))
             exit(-3);
         p->position = 0;
+        p->out = 1;
         board->players[i] = p;
     }
     //debut de partie
@@ -188,29 +189,46 @@ int main(void)
     board->game_running = 1;
     replay = 0;
     display_board(board);
+
     while (board->game_running)
     {
-        player_t *player = board->players[board->current_player];
-        de1= dice();
-        de2 = dice();
-        printf("Au tour de %s !", player->name);
-        getchar();
-        printf("%s lance les des : %d et %d (%d).\n", player->name, de1, de2, de1 + de2);
-        getchar();
-        board->doubles_in_row  = 0;
-        // player is not in prison
-        if (player->prison_for == 0)
+        if (board->players[board->current_player]->out != 0)
         {
-            // if double -> replay
-            if (de1 == de2)
+            player_t *player = board->players[board->current_player];
+            de1= dice();
+            de2 = dice();
+            printf("Au tour de %s !", player->name);
+            getchar();
+            printf("%s lance les des : %d et %d (%d).\n", player->name, de1, de2, de1 + de2);
+            getchar();
+            board->doubles_in_row  = 0;
+            // player is not in prison
+            if (player->prison_for == 0)
             {
-                replay++;
-                board->doubles_in_row++;
-                if (board->doubles_in_row == DOUBLE_PRISON)
+                // if double -> replay
+                if (de1 == de2)
                 {
-                    player->position = 8;
-                    player->prison_for = TIME_PRISON;
+                    replay++;
+                    board->doubles_in_row++;
+                    if (board->doubles_in_row == DOUBLE_PRISON)
+                    {
+                        player->position = 8;
+                        player->prison_for = TIME_PRISON;
+                    }
                 }
+                // move player and reward for turn
+                player->position += de1 + de2;
+                if (player->position >= CASE_COUNT)
+                {
+                    player->position = player->position % CASE_COUNT;
+                    player->money += MONEY_TURN_REWARD;
+                }
+                display_board(board);
+                // apply case effect
+                replay += apply_case(board);
+                if (player->money <= 0)
+                    board->players[board->current_player]->out = 0;
+
             }
             // move player and reward for turn
             player->position += de1 + de2;
@@ -225,14 +243,14 @@ int main(void)
             replay += apply_case(board);
         }
         else
-        {
-            board->players[board->current_player]->prison_for--;
-            if (de1 == de2)
             {
-                printf("%s sort de prison !\n", board->players[board->current_player]->name);
-                board->players[board->current_player]->prison_for = 0;
+                board->players[board->current_player]->prison_for--;
+                if (de1 == de2)
+                {
+                    printf("%s sort de prison !\n", board->players[board->current_player]->name);
+                    board->players[board->current_player]->prison_for = 0;
+                }
             }
-        }
         display_board(board);
         if (!replay)
         {

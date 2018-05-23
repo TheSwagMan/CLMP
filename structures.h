@@ -8,6 +8,7 @@ typedef struct  player_s
     int         money;
     int         objets;
     int         prison_for;
+    int         out;
 }               player_t;
 
 
