@@ -234,6 +234,48 @@ void    display_board(board_t *board)
 
 void display_card(card_t *card)
 {
+    int i;
+    char *t, *t1;
 
-    printf("%s %s", card->title, card->desc);
+    printf("%c", X_CHAR);
+    for (i = 0; i < CARD_W - 2; i++)
+        printf("%c", H_CHAR);
+    printf("%c\n", X_CHAR);
+    printf("%c", V_CHAR);
+    center_pad_str((char *)"CARTE CHANCE", CARD_W - 2);
+    printf("%c\n", V_CHAR);
+    printf("%c", V_CHAR);
+    center_pad_str(card->title, CARD_W - 2);
+    printf("%c\n", V_CHAR);
+    printf("%c", X_CHAR);
+    for (i = 0; i < CARD_W - 2; i++)
+        printf("%c", H_CHAR);
+    printf("%c\n", X_CHAR);
+    printf("%c", V_CHAR);
+    center_pad_str((char *)"", CARD_W - 2);
+    printf("%c\n", V_CHAR);
+    printf("%c", V_CHAR);
+    center_pad_str(card->desc, CARD_W - 2);
+    printf("%c\n", V_CHAR);
+    t = my_itoa(card->value);
+    t1 = (char *)malloc((strlen(t) + 2) * sizeof(char));
+    if (card->value)
+    {
+        t1[0] = '$';
+        strcpy(t1 + 1, t);
+    }
+    else
+    {
+        t1[0] = '\0';
+    }
+    printf("%c", V_CHAR);
+    center_pad_str(t1, CARD_W - 2);
+    printf("%c\n", V_CHAR);
+    printf("%c", V_CHAR);
+    center_pad_str((char *)"", CARD_W - 2);
+    printf("%c\n", V_CHAR);
+    printf("%c", X_CHAR);
+    for (i = 0; i < CARD_W - 2; i++)
+        printf("%c", H_CHAR);
+    printf("%c\n", X_CHAR);
 }

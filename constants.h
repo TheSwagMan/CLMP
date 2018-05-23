@@ -16,6 +16,6 @@
 # define H_SIZE     22
 # define GRID_SIZE  9
 # define CASE_COUNT (4 * (GRID_SIZE - 1))
-
+# define CARD_W     50
 
 #endif /* _CONSTANTS_H_ */
