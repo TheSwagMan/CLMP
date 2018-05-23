@@ -25,7 +25,7 @@ int monopoles(board_t *board, int player)
 {
     int i, n = 0;
     for (i = 0; i < 8; i++)
-        if (own_in_category(board, i, player) == count_in_category(board, i))
+        if (own_in_category(board, player, i) == count_in_category(board, i))
             n++;
     return (n);
 }
@@ -33,21 +33,35 @@ int monopoles(board_t *board, int player)
 int is_won(board_t *board){
     int i;
     int player_alive = 0;
+    int winner = -1;
     // counting alive players
     for (i = 0; i < board->player_number; i++)
         if (board->players[i]->out == 0)
             player_alive++;
+        else
+            winner = i;
     if (player_alive == 1)
+    {
+        printf("%s gagne en etant le seul restant !\n", board->players[winner]->name);
         return (1);
-    int a = board->cases[4].owner;
-    if (a == board->cases[11].owner
-            && a == board->cases[21].owner
-            && a == board->cases[27].owner
-            && a >= 0)
+    }
+    i = board->cases[4].owner;
+    if (i == board->cases[11].owner
+            && i == board->cases[21].owner
+            && i == board->cases[27].owner
+            && i >= 0)
+    {
+        winner = i;
+        printf("%s gagne avec toutes les gares !\n", board->players[winner]->name);
         return (1);
+    }
     for (i = 0; i < board->player_number; i++)
         if (monopoles(board, i) >= 2)
+        {
+        winner = i;
+        printf("%s gagne en ayant 2 monopoles !\n", board->players[winner]->name);
             return (1);
+        }
     return (0);
 }
 
@@ -274,7 +288,7 @@ int main(void)
     replay = 0;
     display_board(board);
 
-    while (board->game_running)
+    while (!is_won(board))
     {
         if (!board->players[board->current_player]->out)
         {
@@ -336,8 +350,6 @@ int main(void)
             }
         }
         replay = 0;
-        if (is_won(board))
-            board->game_running = 0;
     }
     return (0);
 }
