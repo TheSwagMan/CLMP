@@ -16,7 +16,6 @@ void buy_case(board_t *board)
             board->cases[case_number].owner = player_number;
         }
     }
-
 }
 
 void pay_rent(board_t *board)
@@ -183,15 +182,16 @@ int main(void)
     board->current_player = 0;
     board->game_running = 1;
     replay = 0;
+    display_board(board);
     while (board->game_running)
     {
         player_t *player = board->players[board->current_player];
         de1= dice();
         de2 = dice();
-        display_board(board);
         printf("Au tour de %s !", player->name);
         getchar();
         printf("%s lance les des : %d et %d (%d).\n", player->name, de1, de2, de1 + de2);
+        getchar();
         board->doubles_in_row  = 0;
         // player is not in prison
         if (player->prison_for == 0)
@@ -214,6 +214,7 @@ int main(void)
                 player->position = player->position % CASE_COUNT;
                 player->money += MONEY_TURN_REWARD;
             }
+            display_board(board);
             // apply case effect
             replay += apply_case(board);
         }
@@ -222,7 +223,7 @@ int main(void)
             board->players[board->current_player]->prison_for--;
             if (de1 == de2)
             {
-                printf("%s sort de prison !", board->players[board->current_player]->name);
+                printf("%s sort de prison !\n", board->players[board->current_player]->name);
                 board->players[board->current_player]->prison_for = 0;
             }
         }
