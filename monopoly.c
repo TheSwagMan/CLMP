@@ -132,18 +132,17 @@ void pay_rent(board_t *board)
     // can player pay ?
     if (player->money >= rent_price)
     {
-        player->money -= rent_price;
-        board->players[board->cases[case_number].owner]->money += rent_price;
+        if (board->players[board->cases[case_number].owner]->out)
+            board->jackpot += rent_price;
+        else
+            board->players[board->cases[case_number].owner]->money += rent_price;
     }
     else
     {
         if (!resell_case(board, player->money - rent_price))
             board->players[player_number]->out = 1;
-        else
-        {
-            player->money -= rent_price;
-        }
     }
+    player->money -= rent_price;
 }
 
 void handle_street_station(board_t *board)
@@ -166,7 +165,10 @@ void handle_street_station(board_t *board)
             && ask((char *)"Racheter ?"))
     {
         board->players[player_number]->money -= board->cases[case_number].price;
-        board->players[board->cases[case_number].owner]->money += board->cases[case_number].price;
+        if (board->players[board->cases[case_number].owner]->out)
+            board->jackpot += board->cases[case_number].price;
+        else
+            board->players[board->cases[case_number].owner]->money += board->cases[case_number].price;
         board->cases->owner = player_number;
     }
 }

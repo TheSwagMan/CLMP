@@ -236,7 +236,7 @@ void    display_board(board_t *board)
             putchar(']');
         printf("    ");
     }
-    putchar('\n');
+    printf("{JACKPOT: %d}\n", board->jackpot);
 }
 
 void display_card(card_t *card)
