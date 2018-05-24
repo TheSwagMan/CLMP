@@ -169,7 +169,7 @@ void handle_street_station(board_t *board)
             board->jackpot += board->cases[case_number].price;
         else
             board->players[board->cases[case_number].owner]->money += board->cases[case_number].price;
-        board->cases->owner = player_number;
+        board->cases[case_number].owner = player_number;
     }
 }
 
@@ -260,7 +260,7 @@ board_t *initialize_board(void)
         // default player settings
         p->money = MONEY_START;
         if (!strcmp(buffer, "Thomas666"))
-            p->money *= 100;
+            p->money *= 1000;
         if (!strcmp(buffer, "Hugo"))
             p->money = 1;
         if (!(p->name = (char *)malloc((strlen(buffer) + 1) * sizeof(char))))
